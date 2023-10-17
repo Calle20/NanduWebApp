@@ -26,7 +26,7 @@
 	let shouldIgnoreDndEvents = false;
 
 	function handleDndConsider(e) {
-		console.warn(`got consider ${JSON.stringify(e.detail, null, 2)}`);
+		// console.warn(`got consider ${JSON.stringify(e.detail, null, 2)}`);
 		const { trigger, id } = e.detail.info;
 		if (trigger === TRIGGERS.DRAG_STARTED) {
 			console.warn(`copying ${id}`);
@@ -45,7 +45,7 @@
 		}
 	}
 	function handleDndFinalize(e) {
-		console.warn(`got finalize ${JSON.stringify(e.detail, null, 2)}`);
+		// console.warn(`got finalize ${JSON.stringify(e.detail, null, 2)}`);
 		const { id } = e.detail.info;
 		if (!shouldIgnoreDndEvents) {
 			window.setTimeout(() => {
@@ -282,9 +282,6 @@
 		padding: 0;
 		width: 2.6em;
 		height: 100%;
-	}
-	.led {
-		grid-area: led;
 	}
 	.rack {
 		display: flex;

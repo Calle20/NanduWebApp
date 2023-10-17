@@ -3707,8 +3707,8 @@ var app = (function () {
     			}
 
     			t = space();
-    			attr_dev(div, "class", "column svelte-7be8e0");
-    			add_location(div, file, 155, 5, 3896);
+    			attr_dev(div, "class", "column svelte-1442qzn");
+    			add_location(div, file, 155, 5, 3902);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -3874,8 +3874,8 @@ var app = (function () {
     			div = element("div");
     			create_component(tile.$$.fragment);
     			t = space();
-    			attr_dev(div, "class", "svelte-7be8e0");
-    			add_location(div, file, 193, 3, 4767);
+    			attr_dev(div, "class", "svelte-1442qzn");
+    			add_location(div, file, 193, 3, 4773);
     			this.first = div;
     		},
     		m: function mount(target, anchor) {
@@ -4060,46 +4060,46 @@ var app = (function () {
     			div6 = element("div");
     			button4 = element("button");
     			button4.textContent = "run";
-    			attr_dev(div0, "class", "grid svelte-7be8e0");
-    			add_location(div0, file, 134, 2, 3324);
-    			add_location(h10, file, 143, 40, 3588);
+    			attr_dev(div0, "class", "grid svelte-1442qzn");
+    			add_location(div0, file, 134, 2, 3330);
+    			add_location(h10, file, 143, 40, 3594);
     			attr_dev(button0, "type", "button");
-    			attr_dev(button0, "class", "decrementLength btn btn-outline-secondary svelte-7be8e0");
-    			add_location(button0, file, 140, 3, 3465);
+    			attr_dev(button0, "class", "decrementLength btn btn-outline-secondary svelte-1442qzn");
+    			add_location(button0, file, 140, 3, 3471);
     			set_style(h11, "margin-bottom", "0px");
     			set_style(h11, "line-height", "0.9em");
-    			add_location(h11, file, 149, 5, 3746);
+    			add_location(h11, file, 149, 5, 3752);
     			attr_dev(button1, "type", "button");
-    			attr_dev(button1, "class", "decrementHeight btn btn-outline-secondary svelte-7be8e0");
-    			add_location(button1, file, 145, 3, 3617);
-    			attr_dev(div1, "class", "main grid svelte-7be8e0");
-    			add_location(div1, file, 153, 3, 3835);
-    			add_location(h12, file, 166, 40, 4168);
+    			attr_dev(button1, "class", "decrementHeight btn btn-outline-secondary svelte-1442qzn");
+    			add_location(button1, file, 145, 3, 3623);
+    			attr_dev(div1, "class", "main grid svelte-1442qzn");
+    			add_location(div1, file, 153, 3, 3841);
+    			add_location(h12, file, 166, 40, 4174);
     			attr_dev(button2, "type", "button");
-    			attr_dev(button2, "class", "incrementLength btn btn-outline-secondary svelte-7be8e0");
-    			add_location(button2, file, 163, 3, 4045);
+    			attr_dev(button2, "class", "incrementLength btn btn-outline-secondary svelte-1442qzn");
+    			add_location(button2, file, 163, 3, 4051);
     			set_style(h13, "margin-bottom", "0px");
     			set_style(h13, "line-height", "0.9em");
-    			add_location(h13, file, 172, 5, 4326);
+    			add_location(h13, file, 172, 5, 4332);
     			attr_dev(button3, "type", "button");
-    			attr_dev(button3, "class", "incrementHeight btn btn-outline-secondary svelte-7be8e0");
-    			add_location(button3, file, 168, 3, 4197);
-    			attr_dev(div2, "class", "gridContainer svelte-7be8e0");
-    			add_location(div2, file, 139, 2, 3433);
-    			attr_dev(div3, "class", "grid svelte-7be8e0");
-    			add_location(div3, file, 177, 2, 4424);
-    			attr_dev(div4, "class", "column svelte-7be8e0");
+    			attr_dev(button3, "class", "incrementHeight btn btn-outline-secondary svelte-1442qzn");
+    			add_location(button3, file, 168, 3, 4203);
+    			attr_dev(div2, "class", "gridContainer svelte-1442qzn");
+    			add_location(div2, file, 139, 2, 3439);
+    			attr_dev(div3, "class", "grid svelte-1442qzn");
+    			add_location(div3, file, 177, 2, 4430);
+    			attr_dev(div4, "class", "column svelte-1442qzn");
     			set_style(div4, "margin", "3em");
-    			add_location(div4, file, 133, 1, 3279);
-    			attr_dev(div5, "class", "rack svelte-7be8e0");
+    			add_location(div4, file, 133, 1, 3285);
+    			attr_dev(div5, "class", "rack svelte-1442qzn");
     			attr_dev(div5, "id", "rack");
-    			add_location(div5, file, 184, 1, 4552);
+    			add_location(div5, file, 184, 1, 4558);
     			attr_dev(button4, "class", "btn btn-primary btn-lg");
-    			add_location(button4, file, 199, 2, 4944);
-    			attr_dev(div6, "class", "main-container svelte-7be8e0");
-    			add_location(div6, file, 198, 1, 4912);
-    			attr_dev(div7, "class", "program-container svelte-7be8e0");
-    			add_location(div7, file, 132, 0, 3245);
+    			add_location(button4, file, 199, 2, 4950);
+    			attr_dev(div6, "class", "main-container svelte-1442qzn");
+    			add_location(div6, file, 198, 1, 4918);
+    			attr_dev(div7, "class", "program-container svelte-1442qzn");
+    			add_location(div7, file, 132, 0, 3251);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -4381,7 +4381,7 @@ var app = (function () {
     	let shouldIgnoreDndEvents = false;
 
     	function handleDndConsider(e) {
-    		console.warn(`got consider ${JSON.stringify(e.detail, null, 2)}`);
+    		// console.warn(`got consider ${JSON.stringify(e.detail, null, 2)}`);
     		const { trigger, id } = e.detail.info;
 
     		if (trigger === TRIGGERS.DRAG_STARTED) {
@@ -4400,7 +4400,7 @@ var app = (function () {
     	}
 
     	function handleDndFinalize(e) {
-    		console.warn(`got finalize ${JSON.stringify(e.detail, null, 2)}`);
+    		// console.warn(`got finalize ${JSON.stringify(e.detail, null, 2)}`);
     		const { id } = e.detail.info;
 
     		if (!shouldIgnoreDndEvents) {
