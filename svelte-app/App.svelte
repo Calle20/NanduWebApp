@@ -283,9 +283,6 @@
 		width: 2.6em;
 		height: 100%;
 	}
-	.led {
-		grid-area: led;
-	}
 	.rack {
 		display: flex;
 		justify-content: center;
