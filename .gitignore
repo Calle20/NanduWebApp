@@ -1,5 +1,7 @@
 /node_modules/
-/public/build/
+wwwroot/vendor
+
+bun.lockb
 
 .DS_Store
 
