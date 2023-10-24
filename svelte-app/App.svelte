@@ -112,7 +112,12 @@
 		// });
 		// console.log(updatedLetters);
 
-		const leds = ledGrid.map((led) => `Q${led.id}`).join(" ");
+		const leds = ledGrid
+			.map((led) => {
+				if (led.isOn) return `Q${led.id}`;
+				else return "X";
+			})
+			.join(" ");
 		const code = $letters
 			.map((col, idx) =>
 				col.map((element, jdx) => {

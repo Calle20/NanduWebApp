@@ -3696,7 +3696,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (155:3) {#each ledGrid as led}
+    // (160:3) {#each ledGrid as led}
     function create_each_block_4(ctx) {
     	let led;
     	let updating_ledGrid;
@@ -3753,14 +3753,14 @@ var app = (function () {
     		block,
     		id: create_each_block_4.name,
     		type: "each",
-    		source: "(155:3) {#each ledGrid as led}",
+    		source: "(160:3) {#each ledGrid as led}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (176:6) {#each col as row}
+    // (181:6) {#each col as row}
     function create_each_block_3(ctx) {
     	let square;
     	let updating_letters;
@@ -3817,14 +3817,14 @@ var app = (function () {
     		block,
     		id: create_each_block_3.name,
     		type: "each",
-    		source: "(176:6) {#each col as row}",
+    		source: "(181:6) {#each col as row}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (174:4) {#each $boardGrid as col}
+    // (179:4) {#each $boardGrid as col}
     function create_each_block_2(ctx) {
     	let div;
     	let t;
@@ -3851,7 +3851,7 @@ var app = (function () {
 
     			t = space();
     			attr_dev(div, "class", "column svelte-1442qzn");
-    			add_location(div, file, 174, 5, 4224);
+    			add_location(div, file, 179, 5, 4286);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -3922,14 +3922,14 @@ var app = (function () {
     		block,
     		id: create_each_block_2.name,
     		type: "each",
-    		source: "(174:4) {#each $boardGrid as col}",
+    		source: "(179:4) {#each $boardGrid as col}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (198:3) {#each ledGridOut as led}
+    // (203:3) {#each ledGridOut as led}
     function create_each_block_1(ctx) {
     	let ledout;
     	let updating_ledGridOut;
@@ -3986,14 +3986,14 @@ var app = (function () {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(198:3) {#each ledGridOut as led}",
+    		source: "(203:3) {#each ledGridOut as led}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (212:2) {#each items as item (item.id)}
+    // (217:2) {#each items as item (item.id)}
     function create_each_block(key_1, ctx) {
     	let div;
     	let tile;
@@ -4018,7 +4018,7 @@ var app = (function () {
     			create_component(tile.$$.fragment);
     			t = space();
     			attr_dev(div, "class", "svelte-1442qzn");
-    			add_location(div, file, 212, 3, 5057);
+    			add_location(div, file, 217, 3, 5119);
     			this.first = div;
     		},
     		m: function mount(target, anchor) {
@@ -4064,7 +4064,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(212:2) {#each items as item (item.id)}",
+    		source: "(217:2) {#each items as item (item.id)}",
     		ctx
     	});
 
@@ -4204,45 +4204,45 @@ var app = (function () {
     			button4 = element("button");
     			button4.textContent = "run";
     			attr_dev(div0, "class", "grid svelte-1442qzn");
-    			add_location(div0, file, 153, 2, 3673);
-    			add_location(h10, file, 162, 40, 3928);
+    			add_location(div0, file, 158, 2, 3735);
+    			add_location(h10, file, 167, 40, 3990);
     			attr_dev(button0, "type", "button");
     			attr_dev(button0, "class", "decrementLength btn btn-outline-secondary svelte-1442qzn");
-    			add_location(button0, file, 159, 3, 3808);
+    			add_location(button0, file, 164, 3, 3870);
     			set_style(h11, "margin-bottom", "0px");
     			set_style(h11, "line-height", "0.9em");
-    			add_location(h11, file, 168, 5, 4080);
+    			add_location(h11, file, 173, 5, 4142);
     			attr_dev(button1, "type", "button");
     			attr_dev(button1, "class", "decrementHeight btn btn-outline-secondary svelte-1442qzn");
-    			add_location(button1, file, 164, 3, 3955);
+    			add_location(button1, file, 169, 3, 4017);
     			attr_dev(div1, "class", "main grid svelte-1442qzn");
-    			add_location(div1, file, 172, 3, 4165);
-    			add_location(h12, file, 185, 40, 4485);
+    			add_location(div1, file, 177, 3, 4227);
+    			add_location(h12, file, 190, 40, 4547);
     			attr_dev(button2, "type", "button");
     			attr_dev(button2, "class", "incrementLength btn btn-outline-secondary svelte-1442qzn");
-    			add_location(button2, file, 182, 3, 4365);
+    			add_location(button2, file, 187, 3, 4427);
     			set_style(h13, "margin-bottom", "0px");
     			set_style(h13, "line-height", "0.9em");
-    			add_location(h13, file, 191, 5, 4637);
+    			add_location(h13, file, 196, 5, 4699);
     			attr_dev(button3, "type", "button");
     			attr_dev(button3, "class", "incrementHeight btn btn-outline-secondary svelte-1442qzn");
-    			add_location(button3, file, 187, 3, 4512);
+    			add_location(button3, file, 192, 3, 4574);
     			attr_dev(div2, "class", "gridContainer svelte-1442qzn");
-    			add_location(div2, file, 158, 2, 3777);
+    			add_location(div2, file, 163, 2, 3839);
     			attr_dev(div3, "class", "grid svelte-1442qzn");
-    			add_location(div3, file, 196, 2, 4730);
+    			add_location(div3, file, 201, 2, 4792);
     			attr_dev(div4, "class", "column svelte-1442qzn");
     			set_style(div4, "margin", "3em");
-    			add_location(div4, file, 152, 1, 3629);
+    			add_location(div4, file, 157, 1, 3691);
     			attr_dev(div5, "class", "rack svelte-1442qzn");
     			attr_dev(div5, "id", "rack");
-    			add_location(div5, file, 203, 1, 4851);
+    			add_location(div5, file, 208, 1, 4913);
     			attr_dev(button4, "class", "btn btn-primary btn-lg");
-    			add_location(button4, file, 218, 2, 5228);
+    			add_location(button4, file, 223, 2, 5290);
     			attr_dev(div6, "class", "main-container svelte-1442qzn");
-    			add_location(div6, file, 217, 1, 5197);
+    			add_location(div6, file, 222, 1, 5259);
     			attr_dev(div7, "class", "program-container svelte-1442qzn");
-    			add_location(div7, file, 151, 0, 3596);
+    			add_location(div7, file, 156, 0, 3658);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -4601,7 +4601,9 @@ var app = (function () {
     		// 	else col;
     		// });
     		// console.log(updatedLetters);
-    		const leds = ledGrid.map(led => `Q${led.id}`).join(" ");
+    		const leds = ledGrid.map(led => {
+    			if (led.isOn) return `Q${led.id}`; else return "X";
+    		}).join(" ");
 
     		const code = $letters.map((col, idx) => col.map((element, jdx) => {
     			const prevElement = $letters[idx][jdx - 1];
