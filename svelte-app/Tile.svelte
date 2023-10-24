@@ -11,8 +11,8 @@
 
 <style>
     :global(.tile) {
-        height: calc(min(5vmin, 50px));
-        width: calc(min(5vmin, 50px));
+        height: calc(min(5vmin, 50px) - 2px);
+        width: calc(min(10vmin, 100px) - 4px);
         /* border: 2px solid #272727; */
         border-radius: calc(min(5vmin, 50px) / 6.25);
         display: flex;
@@ -28,9 +28,11 @@
     }
 
     :global(.r) {
+        width: calc(min(5vmin, 50px) - 2px);
         background: color-mix(in srgb, #dc3546 69%, #272727);
     }
     :global(.R) {
+        width: calc(min(5vmin, 50px) - 2px);
         background: #dc3546;
     }
     :global(.W) {
