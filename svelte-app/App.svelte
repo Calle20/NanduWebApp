@@ -21,7 +21,7 @@
 		{ id: idx++, letter: "B" },
 	];
 
-	let length = 6;
+	let length = writable(6);
 	let height = 5;
 	let shouldIgnoreDndEvents = false;
 
@@ -62,7 +62,7 @@
 	}
 
 	$: boardGrid = writable(
-		Array.from({ length }, (_, i) =>
+		Array.from({ length: $length }, (_, i) =>
 			Array.from({ length: height }, (_, j) => ({
 				id: i * height + j,
 			}))
@@ -70,7 +70,9 @@
 	);
 
 	let letters = writable(
-		Array.from({ length: height }, () => Array.from({ length }, () => "X"))
+		Array.from({ length: height }, () =>
+			Array.from({ length: $length }, () => "X")
+		)
 	);
 
 	function incrementBoardGridHeight(_e) {
@@ -82,38 +84,60 @@
 		$letters.pop();
 	}
 	function incrementBoardGridLength(_e) {
-		length += 1;
+		$length += 1;
 		$letters.forEach((array) => array.push("X"));
 	}
 	function decrementBoardGridLength(_e) {
-		length -= 1;
+		$length -= 1;
 		$letters.forEach((array) => array.pop());
 	}
-
-	function run(e) {
-		if (e.key && e.key !== "Enter") return;
-		const leds = ledGrid
-			.map((led) => {
-				if (led.isOn) return `Q${led.id}`;
-				else return "X";
-			})
-			.join(" ");
-		const code = $letters.join("\n").replaceAll(",", " ");
-
-		const program = [length, height, leds, code].join("\n");
-		console.log(program);
-	}
-
 	// of type { id: number, isOn: bool}
-	$: ledGrid = Array.from({ length }, (_, i) =>
+	$: ledGrid = Array.from({ length: $length }, (_, i) =>
 		Object.create({
 			id: i,
 			isOn: false,
 		})
 	);
 
+	function run(e) {
+		if (e.key && e.key !== "Enter") return;
+
+		// const updatedLetters = $letters.map((col) => {
+		// 	console.log(
+		// 		col.every((x) => x === "X"),
+		// 		col
+		// 	);
+		// 	if (col.every((x) => x === "X")) return;
+		// 	else col;
+		// });
+		// console.log(updatedLetters);
+
+		const leds = ledGrid
+			.map((led) => {
+				if (led.isOn) return `Q${led.id}`;
+				else return "X";
+			})
+			.join(" ");
+		const code = $letters
+			.map((col, idx) =>
+				col.map((element, jdx) => {
+					const prevElement = $letters[idx][jdx - 1];
+					if (prevElement === "W" || prevElement === "B")
+						return prevElement;
+					else return element;
+				})
+			)
+			.join("\n")
+			.replaceAll(",", " ");
+
+		console.log(code);
+
+		const program = [$length, height, leds, code].join("\n");
+		console.log(program);
+	}
+
 	// of type { id: number, isOn: bool}
-	let ledGridOut = Array.from({ length }, (_, i) =>
+	let ledGridOut = Array.from({ length: $length }, (_, i) =>
 		Object.create({
 			id: i,
 			isOn: false,
