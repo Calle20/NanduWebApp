@@ -19,7 +19,7 @@
     let currentId = 0;
     let previousId = writable(0);
     let previousIdForOpacity = writable(undefined);
-    const flipDurationMs = 10;
+    let flipDurationMs = 100;
     // $: prevId = $previousId;
 
     async function handleDndConsider(e) {
@@ -40,6 +40,10 @@
             const square = document.getElementById(currentId + height);
             if (square) square.style.backgroundColor = "#404040";
 
+            console.log("FIRST!");
+            // const currentSquare = document.getElementById(id + height);
+            // if (currentSquare) currentSquare.style.backgroundColor = background;
+
             const previousSquare = document.getElementById($previousId);
             console.log($previousId);
             if (previousSquare)
@@ -58,8 +62,10 @@
             if (itemList[0]) {
                 const square = document.getElementById(id + height);
                 if (square) {
+                    await tick();
                     square.style.opacity = 1;
                     square.style.backgroundColor = background;
+                    console.log("SECOND!");
                 }
                 console.log(square);
 
@@ -80,6 +86,7 @@
         // if ($letters[x][y - 1] !== "X")
         //     document.getElementById(id).style.opacity = 0;
     }
+
     function handleDndFinalize(e) {
         const id = parseInt(e.target.id);
         // console.log(id);
@@ -123,11 +130,14 @@
             else {
                 window.setTimeout(() => {
                     items = [];
-                    rightSquare.hasChildNodes()
-                        ? (document.getElementById(id).style.opacity = 1)
-                        : (document.getElementById(id).style.opacity = 0);
-                    // document.getElementById(id).style.opacity = 1;
-                }, flipDurationMs);
+                    rightSquare = document.getElementById(id + height);
+                    if ($letters[x][y - 1] && $letters[x][y - 1] !== "X") {
+                        document.getElementById(id).style.opacity = 0;
+                        document.getElementById(
+                            id + height
+                        ).style.backgroundColor = "#404040";
+                    }
+                }, 5);
                 items = e.detail.items;
                 $letters[x][y] = "X";
                 console.warn(e);
