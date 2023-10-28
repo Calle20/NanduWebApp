@@ -220,7 +220,7 @@
 		$ledGridOut = [...$ledGridOut];
 	} // the code for the output leds when the input leds change
 
-	const flipDurationMs = 10;
+	const flipDurationMs = 100;
 
 	$: options = {
 		items,
