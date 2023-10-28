@@ -82,9 +82,10 @@
 
 	function incrementBoardGridHeight(_e) {
 		height += 1;
-		$letters.push(Array.from({ length: height }, () => "X"));
+		$letters.push(Array.from({ length: $length }, () => "X"));
 	}
 	function decrementBoardGridHeight(_e) {
+		if (height === 1) return;
 		height -= 1;
 		$letters.pop();
 	}
@@ -93,6 +94,7 @@
 		$letters.forEach((array) => array.push("X"));
 	}
 	function decrementBoardGridLength(_e) {
+		if ($length === 1) return;
 		$length -= 1;
 		$letters.forEach((array) => array.pop());
 	}

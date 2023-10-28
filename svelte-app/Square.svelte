@@ -98,12 +98,11 @@
             // $letters[x][y + 1] = new_letter;
             // const isR = new_letter.toLowerCase() === "r";
             let rightSquare = document.getElementById(id + height);
-            const hasChildNodes = rightSquare.hasChildNodes();
 
             if (
                 rightSquare &&
                 // !isR &&
-                (hasChildNodes ||
+                (rightSquare.hasChildNodes() ||
                     ($letters[x][y - 1] && $letters[x][y - 1] !== "X"))
             )
                 rightSquare = false; // to ensure that it's not possible to drag one onto another
@@ -120,11 +119,11 @@
 
             console.log(rightSquare);
             if (rightSquare) rightSquare.style.opacity = 0;
-            console.log(rightSquare, typeof rightSquare);
-            if (!rightSquare) {
+            // console.log(rightSquare, typeof rightSquare);
+            else {
                 window.setTimeout(() => {
                     items = [];
-                    hasChildNodes
+                    rightSquare.hasChildNodes()
                         ? (document.getElementById(id).style.opacity = 1)
                         : (document.getElementById(id).style.opacity = 0);
                     // document.getElementById(id).style.opacity = 1;
