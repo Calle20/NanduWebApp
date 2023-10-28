@@ -7,6 +7,8 @@
     // import { boardGrid } from "./store";
     import Tile from "./Tile.svelte";
     import { writable } from "svelte/store";
+    import { hasRun } from "./store";
+    import { tick } from "svelte";
 
     export let id;
     export let letters;
@@ -20,7 +22,8 @@
     const flipDurationMs = 10;
     // $: prevId = $previousId;
 
-    function handleDndConsider(e) {
+    async function handleDndConsider(e) {
+        $hasRun = false;
         const id = parseInt(e.target.id);
         const { trigger } = e.detail.info;
         const itemList = e.detail.items;
@@ -30,6 +33,7 @@
 
         // console.log(e.detail);
         // console.log(itemList[0].letters.toLowerCase());
+        await tick();
 
         console.log(trigger);
         if (trigger === TRIGGERS.DRAGGED_LEFT) {
@@ -123,9 +127,10 @@
             if (rightSquare === false || (rightSquare === undefined && !isR)) {
                 window.setTimeout(() => {
                     items = [];
-                    rightSquare === false
-                        ? (document.getElementById(id).style.opacity = 0)
-                        : (document.getElementById(id).style.opacity = 1);
+                    // rightSquare === false
+                    //     ? (document.getElementById(id).style.opacity = 0)
+                    //     : (document.getElementById(id).style.opacity = 1);
+                    document.getElementById(id).style.opacity = 1;
                 }, flipDurationMs);
                 items = e.detail.items;
                 $letters[x][y] = "X";

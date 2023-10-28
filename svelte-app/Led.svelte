@@ -3,21 +3,25 @@
     // export let isOn;
     export let ledGrid;
     let toogle = () => {
-        ledGrid[id].isOn = !ledGrid[id].isOn;
+        $ledGrid[id].isOn = !$ledGrid[id].isOn;
     };
+    console.log($ledGrid);
 </script>
 
 <div
     class="led no-select"
     on:mousedown={toogle}
-    style="background:{ledGrid[id].isOn ? '#198754' : 'red'}"
+    style="opacity: {$ledGrid[id].isActive ? 1 : 0}; background:{$ledGrid[id]
+        .isOn
+        ? '#198754'
+        : '#404040'}"
 >
-    <h4>{id}</h4>
+    <!-- <h4>{id}</h4> -->
 </div>
 
 <style>
     .led {
-        border: 1px solid #272727;
+        border: 2px solid #272727;
         height: calc(2px + min(5vmin, 50px));
         width: 5vmin;
         border-radius: calc(min(5vmin, 50px) / 6.25);

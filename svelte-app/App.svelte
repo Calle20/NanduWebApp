@@ -11,6 +11,7 @@
 	import Square from "./Square.svelte";
 	import Led from "./Led.svelte";
 	import LedOut from "./LedOut.svelte";
+	import { hasRun } from "./store";
 
 	let idx = 0;
 
@@ -21,6 +22,10 @@
 		{ id: idx++, letter: "B" },
 	];
 
+	// let hasRun = writable(false);
+	$: $hasRun = !!(items - items + $length - length);
+	let state = writable([]);
+	if (!$hasRun) state.set([]);
 	let length = writable(6);
 	let height = 5;
 	let shouldIgnoreDndEvents = false;
@@ -77,7 +82,7 @@
 
 	function incrementBoardGridHeight(_e) {
 		height += 1;
-		$letters.push(Array.from({ height }, () => "X"));
+		$letters.push(Array.from({ length: height }, () => "X"));
 	}
 	function decrementBoardGridHeight(_e) {
 		height -= 1;
@@ -92,57 +97,118 @@
 		$letters.forEach((array) => array.pop());
 	}
 	// of type { id: number, isOn: bool}
-	$: ledGrid = Array.from({ length: $length }, (_, i) =>
-		Object.create({
-			id: i,
-			isOn: false,
-		})
+	$: ledGrid = writable(
+		Array.from({ length: $length }, (_, i) =>
+			Object.create({
+				id: i,
+				isOn: false,
+				isActive: false,
+			})
+		)
 	);
+
+	// of type { id: number, isOn: bool}
+	$: ledGridOut = writable(
+		Array.from({ length: $length }, (_, i) =>
+			Object.create({
+				id: i,
+				isOn: false,
+				isActive: false,
+			})
+		)
+	);
+
+	$: if (!$hasRun) {
+		$ledGrid.forEach((led) => (led.isActive = false));
+		$ledGridOut.forEach((led) => (led.isActive = false));
+	}
 
 	function run(e) {
 		if (e.key && e.key !== "Enter") return;
 
-		// const updatedLetters = $letters.map((col) => {
-		// 	console.log(
-		// 		col.every((x) => x === "X"),
-		// 		col
-		// 	);
-		// 	if (col.every((x) => x === "X")) return;
-		// 	else col;
-		// });
-		// console.log(updatedLetters);
-
-		const leds = ledGrid
-			.map((led) => {
-				if (led.isOn) return `Q${led.id}`;
-				else return "X";
+		let codeLength = $length;
+		let leds = $ledGrid.slice();
+		// const leds = ledGrid
+		// 	.map((led) => {
+		// 		if (led.isOn) return `Q${led.id}`;
+		// 		else return "X";
+		// 	})
+		// 	.join(" ");
+		let code = $letters.map((col, idx) =>
+			col.map((element, jdx) => {
+				const prevElement = $letters[idx][jdx - 1];
+				if (prevElement === "W" || prevElement === "B")
+					return prevElement;
+				else return element;
 			})
-			.join(" ");
-		const code = $letters
-			.map((col, idx) =>
-				col.map((element, jdx) => {
-					const prevElement = $letters[idx][jdx - 1];
-					if (prevElement === "W" || prevElement === "B")
-						return prevElement;
-					else return element;
-				})
-			)
-			.join("\n")
-			.replaceAll(",", " ");
-
+		);
 		console.log(code);
 
-		const program = [$length, height, leds, code].join("\n");
-		console.log(program);
-	}
+		function trailCode() {
+			while (code[0].every((x) => x === "X")) {
+				code.splice(0, 1);
+				leds.splice(0, 1);
+				codeLength--;
+			}
+			code = code.reverse();
+			leds = leds.reverse();
+		}
 
-	// of type { id: number, isOn: bool}
-	let ledGridOut = Array.from({ length: $length }, (_, i) =>
-		Object.create({
-			id: i,
-			isOn: false,
-		})
-	);
+		if (code.every((x) => x.every((y) => y === "X"))) return;
+
+		// this whole thing basically removes trailing rows which are filled with X's
+		code = code[0].map((_, i) => code.map((row) => row[i])); // invert code => code[row][col] -> code[col][row]
+		trailCode();
+		trailCode();
+		code = code[0].map((_, i) => code.map((row) => row[i]));
+		code = code.join("\n").replaceAll(",", " ");
+
+		console.log(leds);
+		leds.forEach((led) => {
+			$ledGrid[led.id].isActive = true;
+			$ledGridOut[led.id].isActive = true;
+		});
+
+		const lamps = leds.map((led) => `Q${led.id}`).join(" ");
+		const lampsOut = leds.map((led) => `L${led.id}`).join(" ");
+
+		const program = [
+			[codeLength, height + 2].join(" "),
+			lamps,
+			code,
+			lampsOut,
+		].join("\n");
+		console.log(program);
+
+		fetch("/calculate", { method: "POST", body: program })
+			.then((response) => response.json())
+			.then((json) => ($state = json));
+
+		$hasRun = true;
+	}
+	$: console.log($state);
+
+	$: breakme: if ($ledGrid && $hasRun) {
+		const idx = parseInt(
+			$ledGrid
+				.filter((value) => value.isActive)
+				.map((value) => ~~value.isOn)
+				.join(""),
+			2
+		); // deal with it
+
+		const ledOut = $state[idx];
+		if (!ledOut) break breakme;
+
+		$ledGridOut
+			.filter((value) => value.isActive)
+			.forEach((led) => {
+				let newValue = led;
+				newValue.isOn = ledOut[`L${led.id}`];
+			});
+
+		$ledGridOut = [...$ledGridOut];
+	}
 
 	const flipDurationMs = 10;
 
@@ -157,9 +223,13 @@
 <div class="program-container">
 	<div class="column" style="margin: 3em;">
 		<div class="grid">
-			{#each ledGrid as led}
-				<Led id={led.id} bind:ledGrid />
-			{/each}
+			{#if $hasRun}
+				{#each $ledGrid as led}
+					<Led id={led.id} bind:ledGrid />
+				{/each}
+			{:else}
+				<div style="height: calc(2px + min(5vmin, 50px));" />
+			{/if}
 		</div>
 		<div class="gridContainer">
 			<button
@@ -200,9 +270,13 @@
 			>
 		</div>
 		<div class="grid">
-			{#each ledGridOut as led}
-				<LedOut id={led.id} bind:ledGridOut />
-			{/each}
+			{#if $hasRun}
+				{#each $ledGridOut as led}
+					<LedOut id={led.id} bind:ledGridOut />
+				{/each}
+			{:else}
+				<div style="height: calc(2px + min(5vmin, 50px));" />
+			{/if}
 		</div>
 	</div>
 

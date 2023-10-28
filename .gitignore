@@ -1,6 +1,5 @@
 /node_modules/
-wwwroot/build
-wwwroot/vendor
+/wwwroot/
 
 bun.lockb
 
