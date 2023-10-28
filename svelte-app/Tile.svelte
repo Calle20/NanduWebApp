@@ -28,11 +28,11 @@
     }
 
     :global(.r) {
-        width: calc(min(5vmin, 50px) - 4px);
+        /* width: calc(min(5vmin, 50px) - 4px); */
         background: color-mix(in srgb, #dc3546 69%, #272727);
     }
     :global(.R) {
-        width: calc(min(5vmin, 50px) - 4px);
+        /* width: calc(min(5vmin, 50px) - 4px); */
         background: #dc3546;
     }
     :global(.W) {

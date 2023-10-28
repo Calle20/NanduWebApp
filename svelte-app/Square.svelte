@@ -55,7 +55,7 @@
             //     console.log(square);
             //     if (square) square.style.backgroundColor = "#404040";
         } else if (trigger !== TRIGGERS.DRAG_STARTED) {
-            if (itemList[0] && itemList[0].letter.toLowerCase() !== "r") {
+            if (itemList[0]) {
                 const square = document.getElementById(id + height);
                 if (square) {
                     square.style.opacity = 1;
@@ -69,10 +69,7 @@
             $letters[x][y] = "X";
         }
         console.log($letters[x][y - 1]);
-        if (
-            $letters[x][y - 1] &&
-            ($letters[x][y - 1] === "W" || $letters[x][y - 1] === "B")
-        ) {
+        if ($letters[x][y - 1] && $letters[x][y - 1] !== "X") {
             // $previousIdForOpacity = id;
             console.warn("HI");
             window.setTimeout(() => {
@@ -97,17 +94,17 @@
         console.log($previousId);
 
         if (e.detail.info.trigger === TRIGGERS.DROPPED_INTO_ZONE) {
-            const new_letter = e.detail.items[0].letter;
+            const new_letter = e.detail.items[0].letter[0];
             // $letters[x][y + 1] = new_letter;
-            const isR = new_letter.toLowerCase() === "r";
+            // const isR = new_letter.toLowerCase() === "r";
             let rightSquare = document.getElementById(id + height);
+            const hasChildNodes = rightSquare.hasChildNodes();
 
             if (
                 rightSquare &&
-                !isR &&
-                (rightSquare.hasChildNodes() ||
-                    $letters[x][y - 1] === "W" ||
-                    $letters[x][y - 1] === "B")
+                // !isR &&
+                (hasChildNodes ||
+                    ($letters[x][y - 1] && $letters[x][y - 1] !== "X"))
             )
                 rightSquare = false; // to ensure that it's not possible to drag one onto another
             console.log(rightSquare, $letters[x][y - 1] !== "X");
@@ -122,15 +119,15 @@
             // }
 
             console.log(rightSquare);
-            if (rightSquare && !isR) rightSquare.style.opacity = 0;
+            if (rightSquare) rightSquare.style.opacity = 0;
             console.log(rightSquare, typeof rightSquare);
-            if (rightSquare === false || (rightSquare === undefined && !isR)) {
+            if (!rightSquare) {
                 window.setTimeout(() => {
                     items = [];
-                    // rightSquare === false
-                    //     ? (document.getElementById(id).style.opacity = 0)
-                    //     : (document.getElementById(id).style.opacity = 1);
-                    document.getElementById(id).style.opacity = 1;
+                    hasChildNodes
+                        ? (document.getElementById(id).style.opacity = 1)
+                        : (document.getElementById(id).style.opacity = 0);
+                    // document.getElementById(id).style.opacity = 1;
                 }, flipDurationMs);
                 items = e.detail.items;
                 $letters[x][y] = "X";
@@ -141,11 +138,7 @@
             // $previousIdForLetterArray = id;
             // console.log(id, $previousId, $previousIdForLetterArray);
         } else if (e.detail.info.trigger === TRIGGERS.DROPPED_OUTSIDE_OF_ANY) {
-            const new_letter = e.detail.items[0].letter;
-            const rightSquare =
-                new_letter.toLowerCase() === "r"
-                    ? false
-                    : document.getElementById(id + height);
+            const rightSquare = document.getElementById(id + height);
             if (rightSquare) rightSquare.style.opacity = 0;
         } else {
             $letters[x][y] = "X";

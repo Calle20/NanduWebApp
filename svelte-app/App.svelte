@@ -17,8 +17,8 @@
 
 	let items = [
 		{ id: idx++, letter: "W" },
-		{ id: idx++, letter: "r" },
-		{ id: idx++, letter: "R" },
+		{ id: idx++, letter: "r R" },
+		{ id: idx++, letter: "R r" },
 		{ id: idx++, letter: "B" },
 	];
 
@@ -137,9 +137,17 @@
 		let code = $letters.map((col, idx) =>
 			col.map((element, jdx) => {
 				const prevElement = $letters[idx][jdx - 1];
-				if (prevElement === "W" || prevElement === "B")
-					return prevElement;
-				else return element;
+				switch (prevElement) {
+					case "W":
+					case "B":
+						return prevElement;
+					case "R":
+						return "r";
+					case "r":
+						return "R";
+					default:
+						return element;
+				}
 			})
 		);
 		console.log(code);
