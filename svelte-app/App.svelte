@@ -23,7 +23,7 @@
 	];
 
 	// let hasRun = writable(false);
-	$: $hasRun = !!(items - items + $length - length);
+	$: $hasRun = !!(items - items + $length - $length + height - height);
 	let state = writable([]);
 	if (!$hasRun) state.set([]);
 	let length = writable(6);
@@ -218,7 +218,7 @@
 			});
 
 		$ledGridOut = [...$ledGridOut];
-	}
+	} // the code for the output leds when the input leds change
 
 	const flipDurationMs = 10;
 
