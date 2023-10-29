@@ -12,6 +12,7 @@
 	import Led from "./Led.svelte";
 	import LedOut from "./LedOut.svelte";
 	import { hasRun } from "./store";
+	import Delete_forever from "svelte-google-materialdesign-icons/Delete_forever.svelte";
 
 	let idx = 0;
 
@@ -20,6 +21,7 @@
 		{ id: idx++, letter: "r R" },
 		{ id: idx++, letter: "R r" },
 		{ id: idx++, letter: "B" },
+		// { id: idx++, letter: "L" },
 	];
 
 	// let hasRun = writable(false);
@@ -160,6 +162,9 @@
 				leds.splice(0, 1);
 				codeLength--;
 			}
+			// if (code[0].every((x) => x === "X" || x === "r")) {
+			// 	leds.splice(0, 1, "X");
+			// }
 			code = code.reverse();
 			leds = leds.reverse();
 		}
@@ -175,6 +180,7 @@
 
 		console.log(leds);
 		leds.forEach((led) => {
+			// if (!led.isActive) return;
 			$ledGrid[led.id].isActive = true;
 			$ledGridOut[led.id].isActive = true;
 		});
@@ -294,7 +300,14 @@
 		class="rack"
 		id="rack"
 		use:dndzone={options}
-		use:dndzone={{ items, flipDurationMs }}
+		use:dndzone={{
+			items,
+			flipDurationMs,
+			dropTargetStyle: {
+				border: "#f43f5e solid 2px",
+				borderRadius: "3vmin",
+			},
+		}}
 		on:consider={handleDndConsider}
 		on:finalize={handleDndFinalize}
 	>
@@ -305,7 +318,22 @@
 		{/each}
 	</div>
 	<div class="main-container">
-		<button class="btn btn-primary btn-lg" on:click={run}> run</button>
+		<button
+			class="btn btn-primary btn-lg"
+			style="width: 10vmin; margin-bottom: 3vmin;"
+			on:click={run}
+		>
+			run</button
+		>
+		<button
+			class="btn btn-danger btn-lg"
+			style="width: 10vmin;"
+			on:click={() => location.reload()}
+		>
+			<div inert>
+				<Delete_forever />
+			</div>
+		</button>
 	</div>
 </div>
 
