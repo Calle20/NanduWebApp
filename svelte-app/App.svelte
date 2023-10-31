@@ -176,15 +176,18 @@
 		trailCode();
 		trailCode();
 		code = code[0].map((_, i) => code.map((row) => row[i]));
-		code = code.join("\n").replaceAll(",", " ");
 
-		console.log(leds);
-		leds.forEach((led) => {
+		console.log(leds, code);
+		leds.forEach((led, idx) => {
 			// if (!led.isActive) return;
 			$ledGrid[led.id].isActive = true;
-			$ledGridOut[led.id].isActive = true;
+			const lastBlockLetter = code.slice(-1)[0][idx];
+			if (lastBlockLetter !== "X" && lastBlockLetter[0] !== "L")
+				$ledGridOut[led.id].isActive = true;
+			console.log(code.slice(-1)[0][idx]);
 		});
 
+		code = code.join("\n").replaceAll(",", " ");
 		const lamps = leds.map((led) => `Q${led.id}`).join(" ");
 		const lampsOut = leds.map((led) => `L${led.id}`).join(" ");
 

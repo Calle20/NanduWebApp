@@ -19,7 +19,6 @@
 
     let currentId = 0;
     let previousId = writable(0);
-    let previousIdForOpacity = writable(undefined);
     let flipDurationMs = 100;
     $: isLed = false;
 
@@ -228,7 +227,7 @@
             document.getElementById(id).style.backgroundColor = $gridLedState[
                 led
             ]
-                ? "green"
+                ? "#198754"
                 : "red";
         });
     }
