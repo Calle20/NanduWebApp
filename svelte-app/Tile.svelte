@@ -66,7 +66,6 @@
             color-mix(in srgb, #dc3546 69%, #272727),
             #dc3546
         );
-        /* width: calc(min(5vmin, 50px) - 4px); */
     }
     :global(.W) {
         background-color: aliceblue;

@@ -11,7 +11,7 @@
 	import Square from "./Square.svelte";
 	import Led from "./Led.svelte";
 	import LedOut from "./LedOut.svelte";
-	import { hasRun } from "./store";
+	import { ledCounter, hasRun } from "./store";
 	import Delete_forever from "svelte-google-materialdesign-icons/Delete_forever.svelte";
 
 	let idx = 0;
@@ -21,7 +21,6 @@
 		{ id: idx++, letter: "r R" },
 		{ id: idx++, letter: "R r" },
 		{ id: idx++, letter: "B" },
-		// { id: idx++, letter: "L" },
 	];
 
 	// let hasRun = writable(false);
@@ -304,7 +303,7 @@
 			items,
 			flipDurationMs,
 			dropTargetStyle: {
-				border: "#f43f5e solid 2px",
+				outline: "#f43f5e solid 2px",
 				borderRadius: "3vmin",
 			},
 		}}

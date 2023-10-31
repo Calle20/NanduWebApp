@@ -7,7 +7,7 @@
     // import { boardGrid } from "./store";
     import Tile from "./Tile.svelte";
     import { writable } from "svelte/store";
-    import { hasRun } from "./store";
+    import { ledCounter, hasRun } from "./store";
     import { tick } from "svelte";
 
     export let id;
@@ -20,6 +20,7 @@
     let previousId = writable(0);
     let previousIdForOpacity = writable(undefined);
     let flipDurationMs = 100;
+    $: isLed = false;
     // $: prevId = $previousId;
 
     async function handleDndConsider(e) {
@@ -38,7 +39,7 @@
         console.log(trigger);
         if (trigger === TRIGGERS.DRAGGED_LEFT) {
             const square = document.getElementById(currentId + height);
-            if (square) square.style.backgroundColor = "#404040";
+            if (square) square.style.backgroundColor = null;
 
             console.log("FIRST!");
             // const currentSquare = document.getElementById(id + height);
@@ -46,8 +47,7 @@
 
             const previousSquare = document.getElementById($previousId);
             console.log($previousId);
-            if (previousSquare)
-                previousSquare.style.backgroundColor = "#404040";
+            if (previousSquare) previousSquare.style.backgroundColor = null;
 
             // const previousLeftSquare = document.getElementById(
             //     $previousIdForOpacity
@@ -75,7 +75,11 @@
             $letters[x][y] = "X";
         }
         console.log($letters[x][y - 1]);
-        if ($letters[x][y - 1] && $letters[x][y - 1] !== "X") {
+        if (
+            $letters[x][y - 1] &&
+            $letters[x][y - 1] !== "X" &&
+            $letters[x][y - 1][0] !== "L"
+        ) {
             // $previousIdForOpacity = id;
             console.warn("HI");
             window.setTimeout(() => {
@@ -106,40 +110,55 @@
             // const isR = new_letter.toLowerCase() === "r";
             let rightSquare = document.getElementById(id + height);
 
+            if (rightSquare.hasChildNodes() || $letters[x][y + 1][0] === "L") {
+                rightSquare = null;
+            } // if there's a square/LED on the right square || or there is an LED beneath it
+
             if (
                 rightSquare &&
                 // !isR &&
-                (rightSquare.hasChildNodes() ||
-                    ($letters[x][y - 1] && $letters[x][y - 1] !== "X"))
+                $letters[x][y - 1] &&
+                $letters[x][y - 1] !== "X" &&
+                $letters[x][y - 1][0] !== "L" // or there is a square (but not an LED) to the left of it
             )
                 rightSquare = false; // to ensure that it's not possible to drag one onto another
+
+            if ($letters[x][y] !== "X") rightSquare = false;
             console.log(rightSquare, $letters[x][y - 1] !== "X");
-            $letters[x][y] = new_letter;
-            // if (rightSquare === false &&)
-            // console.log($letters[x][y]);
-            // if (
-            //     rightSquare === false &&
-            //     ($letters[x][y] === "W" || $letters[x][y] === "B")
-            // ) {
-            //     rightSquare = NaN; // to ensure that it's not possible to drag an "r" (or "R") onto another
-            // }
 
             console.log(rightSquare);
-            if (rightSquare) rightSquare.style.opacity = 0;
+            if (rightSquare) {
+                rightSquare.style.opacity = 0;
+                $letters[x][y] = new_letter;
+            }
             // console.log(rightSquare, typeof rightSquare);
             else {
                 window.setTimeout(() => {
                     items = [];
-                    rightSquare = document.getElementById(id + height);
-                    if ($letters[x][y - 1] && $letters[x][y - 1] !== "X") {
-                        document.getElementById(id).style.opacity = 0;
+                    // rightSquare = document.getElementById(id + height);
+                    if (rightSquare === false) {
+                        // if (
+                        //     ($letters[x][y - 1] &&
+                        //         $letters[x][y - 1] !== "X") ||
+                        //     $letters[x][y][0] === "L"
+                        // ) {
+                        if ($letters[x][y][0] !== "L")
+                            document.getElementById(id).style.opacity = 0;
                         document.getElementById(
                             id + height
-                        ).style.backgroundColor = "#404040";
+                        ).style.backgroundColor = null;
+                        document.getElementById(id).style.backgroundColor =
+                            null;
+                        // }
+                    } else if (rightSquare === null) {
+                        document.getElementById(
+                            id + height
+                        ).style.backgroundColor = null;
+                        console.log("none");
                     }
                 }, 5);
                 items = e.detail.items;
-                $letters[x][y] = "X";
+                // $letters[x][y] = "X";
                 console.warn(e);
                 return;
             }
@@ -154,9 +173,9 @@
         }
         // console.log($letters[x][y], length, height, x, y);
         // console.log($letters);
-        document.getElementById("rack").style.opacity = 1;
+        // document.getElementById("rack").style.opacity = 1;
         const prevSquare = document.getElementById(id + height);
-        if (prevSquare) prevSquare.style.backgroundColor = "#404040";
+        if (prevSquare) prevSquare.style.backgroundColor = null;
 
         items = e.detail.items;
     }
@@ -169,10 +188,34 @@
     };
 
     // $: console.log(items);
+
+    function onClick(e) {
+        const id = parseInt(e.target.id);
+        const height = $letters.length;
+        const y = Math.floor(id / height);
+        const x = id % height;
+        if (
+            $letters[x][y - 1] &&
+            $letters[x][y - 1][0] !== "L" &&
+            $letters[x][y - 1] !== "X"
+        )
+            return;
+        if ($letters[x][y][0] === "L") {
+            $letters[x][y] = "X";
+            isLed = false;
+            return;
+        }
+        $letters[x][y] = "L" + $ledCounter;
+        isLed = true;
+        $ledCounter++;
+        $hasRun = !!0;
+        console.log($letters);
+    }
 </script>
 
 <div
-    class="square"
+    on:mousedown={onClick}
+    class="square {isLed ? 'led' : ''}"
     {id}
     style={items.find((tile) => tile[SHADOW_ITEM_MARKER_PROPERTY_NAME])
         ? `background: ${background}`
@@ -181,6 +224,9 @@
     on:consider={handleDndConsider}
     on:finalize={handleDndFinalize}
 >
+    <!-- {#if isLed}
+        <span />
+    {/if} -->
     {#each items as tile (tile.id)}
         <Tile letter={tile.letter} className={tile.letter[0]} />
     {/each}
@@ -193,5 +239,14 @@
         width: calc(min(5vmin, 50px));
         border-radius: calc(min(5vmin, 50px) / 6.25);
         background-color: #404040;
+    }
+    .led {
+        /* From https://css.glass */
+        background: #626262;
+        border-radius: 16px;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(9.1px);
+        -webkit-backdrop-filter: blur(9.1px);
+        border: 1px solid rgba(255, 255, 255, 1);
     }
 </style>
