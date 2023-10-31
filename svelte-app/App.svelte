@@ -178,18 +178,25 @@
 		code = code[0].map((_, i) => code.map((row) => row[i]));
 
 		console.log(leds, code);
+		let lamps = leds.map((led) => `Q${led.id}`);
+		let lampsOut = leds.map((led) => `L${led.id}`);
 		leds.forEach((led, idx) => {
 			// if (!led.isActive) return;
-			$ledGrid[led.id].isActive = true;
+			const firstBlockLetter = code.slice(0, 1)[0][idx];
+			if (firstBlockLetter !== "X") $ledGrid[led.id].isActive = true;
+			else lamps[idx] = "X";
+
 			const lastBlockLetter = code.slice(-1)[0][idx];
 			if (lastBlockLetter !== "X" && lastBlockLetter[0] !== "L")
 				$ledGridOut[led.id].isActive = true;
-			console.log(code.slice(-1)[0][idx]);
+			else lampsOut[idx] = "X";
+			console.log(firstBlockLetter);
 		});
 
+		lamps = lamps.join(" ");
+		lampsOut = lampsOut.join(" ");
+
 		code = code.join("\n").replaceAll(",", " ");
-		const lamps = leds.map((led) => `Q${led.id}`).join(" ");
-		const lampsOut = leds.map((led) => `L${led.id}`).join(" ");
 
 		const program = [
 			[codeLength, height + 2].join(" "),
