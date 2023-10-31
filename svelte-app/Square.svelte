@@ -21,9 +21,6 @@
     let previousId = writable(0);
     let flipDurationMs = 100;
     $: isLed = false;
-
-    $: if (!$hasRun && document.getElementById(id))
-        document.getElementById(id).style.backgroundColor = null;
     let ledIdx = 0;
     // $: prevId = $previousId;
 
@@ -197,7 +194,10 @@
     // $: console.log(items);
 
     function onClick(e) {
-        const id = parseInt(e.target.id);
+        const isDivElement = e.target.tagName === "DIV";
+        const id = parseInt(
+            isDivElement ? e.target.id : e.target.parentNode.id
+        );
         const height = $letters.length;
         const y = Math.floor(id / height);
         const x = id % height;
@@ -226,13 +226,24 @@
             const led = Object.keys($gridLedState).find(
                 (x) => x == [`L${ledIdx}`]
             );
-
-            document.getElementById(id).style.backgroundColor = $gridLedState[
-                led
-            ]
+            const element = document.getElementById(id);
+            element.style.backgroundColor = $gridLedState[led]
                 ? "#198754"
                 : "red";
+            element.innerHTML = "<h3 class='centerLetter'>L</h3>";
         });
+    }
+
+    $: if (!$hasRun && document.getElementById(id)) {
+        const element = document.getElementById(id);
+        const height = $letters.length;
+        const y = Math.floor(id / height);
+        const x = id % height;
+
+        if ($letters[x][y][0] === "L") {
+            element.style.backgroundColor = null;
+            element.innerHTML = null;
+        }
     }
 </script>
 
@@ -271,5 +282,12 @@
         backdrop-filter: blur(9.1px);
         -webkit-backdrop-filter: blur(9.1px);
         border: 1px solid rgba(255, 255, 255, 1);
+    }
+    :global(.centerLetter) {
+        user-select: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
     }
 </style>

@@ -13,7 +13,7 @@
         : 'red'}"
 >
     <!-- don't ask for the "~~" -->
-    <!-- <h4>{id}</h4> -->
+    <h4 class="centerLetter">L</h4>
 </div>
 
 <style>
