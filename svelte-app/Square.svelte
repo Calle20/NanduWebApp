@@ -114,9 +114,12 @@
             // const isR = new_letter.toLowerCase() === "r";
             let rightSquare = document.getElementById(id + height);
 
-            if (rightSquare.hasChildNodes() || $letters[x][y + 1][0] === "L") {
-                rightSquare = null;
-            } // if there's a square/LED on the right square || or there is an LED beneath it
+            if (
+                (rightSquare && rightSquare.hasChildNodes()) || // if there's a square/LED on the right square
+                (rightSquare && $letters[x][y + 1][0] === "L") // or there is an LED beneath it
+            ) {
+                rightSquare = undefined;
+            }
 
             if (
                 rightSquare &&
@@ -154,7 +157,7 @@
                         document.getElementById(id).style.backgroundColor =
                             null;
                         // }
-                    } else if (rightSquare === null) {
+                    } else if (rightSquare === undefined) {
                         document.getElementById(
                             id + height
                         ).style.backgroundColor = null;
