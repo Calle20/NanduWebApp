@@ -28,6 +28,7 @@
 	let state = writable([]);
 	if (!$hasRun) state.set([]);
 	let length = writable(6);
+	$: gridLedState = writable([]);
 	let height = 5;
 	let shouldIgnoreDndEvents = false;
 
@@ -215,11 +216,18 @@
 		const ledOut = $state[idx];
 		if (!ledOut) break breakme;
 
+		// const areGridLedsExistingIdx = Object.keys(ledOut).findIndex(
+		// 	(y) => parseInt(y.slice(1)) >= 1024
+		// );
+		// console.log(areGridLedsExistingIdx);
+		// if (areGridLedsExistingIdx)
+		// $gridLedState = $state.slice(areGridLedsExistingIdx);
+		$gridLedState = ledOut;
+
 		$ledGridOut
 			.filter((value) => value.isActive)
 			.forEach((led) => {
-				let newValue = led;
-				newValue.isOn = ledOut[`L${led.id}`];
+				led.isOn = ledOut[`L${led.id}`];
 			});
 
 		$ledGridOut = [...$ledGridOut];
@@ -264,7 +272,11 @@
 				{#each $boardGrid as col}
 					<div class="column">
 						{#each col as row}
-							<Square id={row.id} bind:letters />
+							<Square
+								id={row.id}
+								bind:letters
+								bind:gridLedState
+							/>
 						{/each}
 					</div>
 				{/each}

@@ -12,6 +12,7 @@
 
     export let id;
     export let letters;
+    export let gridLedState;
 
     let items = [];
     const background = "rgba(255, 255, 255, 0.2)";
@@ -21,6 +22,10 @@
     let previousIdForOpacity = writable(undefined);
     let flipDurationMs = 100;
     $: isLed = false;
+
+    $: if (!$hasRun && document.getElementById(id))
+        document.getElementById(id).style.backgroundColor = null;
+    let ledIdx = 0;
     // $: prevId = $previousId;
 
     async function handleDndConsider(e) {
@@ -200,16 +205,32 @@
             $letters[x][y - 1] !== "X"
         )
             return;
+        $hasRun = false;
         if ($letters[x][y][0] === "L") {
             $letters[x][y] = "X";
             isLed = false;
             return;
         }
-        $letters[x][y] = "L" + $ledCounter;
+        ledIdx = $ledCounter;
+        $letters[x][y] = "L" + ledIdx;
         isLed = true;
         $ledCounter++;
-        $hasRun = !!0;
         console.log($letters);
+    }
+
+    $: if ($hasRun && isLed) {
+        tick().then(() => {
+            console.log(ledIdx, $gridLedState);
+            const led = Object.keys($gridLedState).find(
+                (x) => x == [`L${ledIdx}`]
+            );
+
+            document.getElementById(id).style.backgroundColor = $gridLedState[
+                led
+            ]
+                ? "green"
+                : "red";
+        });
     }
 </script>
 
