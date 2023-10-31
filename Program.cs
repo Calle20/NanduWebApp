@@ -131,7 +131,14 @@ Dictionary<string, bool> calculateEndState(object[,][] grid, int width, int heig
                     }
                     break;
                 case string a when a.Contains("L"):
-                    grid[i, j][0] = grid[i - 1, j][0];
+                    if(grid[i-1,j][1].ToString().Contains("L"))
+                    {
+                        grid[i,j][0]=false;
+                    }
+                    else
+                    {
+                        grid[i, j][0] = grid[i - 1, j][0];
+                    }
                     res[a] = (bool)grid[i, j][0];
                     break;
             }
