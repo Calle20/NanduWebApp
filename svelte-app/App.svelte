@@ -3,6 +3,7 @@
 		dndzone,
 		TRIGGERS,
 		SHADOW_ITEM_MARKER_PROPERTY_NAME,
+		SOURCES,
 	} from "svelte-dnd-action";
 	import { flip } from "svelte/animate";
 	import { writable } from "svelte/store";
@@ -34,7 +35,8 @@
 
 	function handleDndConsider(e) {
 		// console.warn(`got consider ${JSON.stringify(e.detail, null, 2)}`);
-		const { trigger, id } = e.detail.info;
+		const { trigger, id, source } = e.detail.info;
+		if (source === SOURCES.KEYBOARD) return;
 		if (trigger === TRIGGERS.DRAG_STARTED) {
 			console.warn(`copying ${id}`);
 			const idx = items.findIndex((item) => item.id === id);
@@ -53,7 +55,8 @@
 	}
 	function handleDndFinalize(e) {
 		// console.warn(`got finalize ${JSON.stringify(e.detail, null, 2)}`);
-		const { id } = e.detail.info;
+		const { id, source } = e.detail.info;
+		if (source === SOURCES.KEYBOARD) return;
 		if (!shouldIgnoreDndEvents) {
 			window.setTimeout(() => {
 				items = items.filter(

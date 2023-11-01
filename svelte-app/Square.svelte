@@ -35,7 +35,6 @@
 
         // console.log(e.detail);
         // console.log(itemList[0].letters.toLowerCase());
-        await tick();
 
         console.log(trigger);
         if (trigger === TRIGGERS.DRAGGED_LEFT) {
@@ -209,7 +208,7 @@
             return;
         $hasRun = false;
         if ($letters[x][y][0] === "L") {
-            $letters[x][y] = "X";
+            setTimeout(() => ($letters[x][y] = "X"), 100);
             isLed = false;
             return;
         }
@@ -242,7 +241,9 @@
 
         if ($letters[x][y][0] === "L") {
             element.style.backgroundColor = null;
+            console.log("NULLED!");
             element.innerHTML = null;
+            $letters[x][y][0] === "X";
         }
     }
 </script>
@@ -282,6 +283,9 @@
         backdrop-filter: blur(9.1px);
         -webkit-backdrop-filter: blur(9.1px);
         border: 1px solid rgba(255, 255, 255, 1);
+    }
+    :focus {
+        outline: none;
     }
     :global(.centerLetter) {
         user-select: none;
