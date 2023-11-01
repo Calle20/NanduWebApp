@@ -12,6 +12,7 @@
 	import Square from "./Square.svelte";
 	import Led from "./Led.svelte";
 	import LedOut from "./LedOut.svelte";
+	import InfoBox from "./InfoBox.svelte";
 	import { ledCounter, hasRun } from "./store";
 	import Delete_forever from "svelte-google-materialdesign-icons/Delete_forever.svelte";
 
@@ -257,6 +258,7 @@
 
 <svelte:window on:keydown={run} />
 <div class="program-container">
+	<InfoBox />
 	<div class="column" style="margin: 3em;">
 		<div class="grid">
 			{#if $hasRun}
@@ -329,7 +331,7 @@
 			flipDurationMs,
 			dropTargetStyle: {
 				outline: "#f43f5e solid 2px",
-				borderRadius: "3vmin",
+				borderRadius: "calc(min(5vmin, 50px) / 6.25)	",
 			},
 		}}
 		on:consider={handleDndConsider}
@@ -342,40 +344,38 @@
 		{/each}
 	</div>
 	<div class="main-container">
-		<button
-			class="btn btn-primary btn-lg"
-			style="width: 10vmin; margin-bottom: 3vmin;"
-			on:click={run}
-		>
-			run</button
-		>
-		<button
-			class="btn btn-danger btn-lg"
-			style="width: 10vmin;"
-			on:click={() => location.reload()}
-		>
-			<div inert>
-				<Delete_forever />
-			</div>
-		</button>
+		<div style="width: 10vmin; margin-bottom: 3vmin;">
+			<button class="btn btn-primary btn-lg" on:click={run}> run</button>
+		</div>
+
+		<div style="width: 10vmin;">
+			<button
+				class="btn btn-danger btn-lg"
+				on:click={() => location.reload()}
+			>
+				<div inert>
+					<Delete_forever />
+				</div>
+			</button>
+		</div>
 	</div>
 </div>
 
 <style>
 	:global(body *) {
-		box-sizing: border-box;
 		margin: 0;
 		padding: 0;
 	}
 
 	.program-container {
 		display: flex;
+		box-sizing: border-box;
 		width: 100%;
 		height: 100%;
 		flex-direction: row;
 		justify-content: center;
 		gap: 1vw;
-		align-items: top;
+		align-items: center;
 		background-color: #272727;
 	}
 	@media (max-width: 800px) {

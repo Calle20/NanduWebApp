@@ -3,7 +3,6 @@
     export let className;
 
     import Drag_indicator from "svelte-google-materialdesign-icons/Drag_indicator.svelte";
-    import { prevent_default } from "svelte/internal";
 </script>
 
 <div class="{className} tile">
