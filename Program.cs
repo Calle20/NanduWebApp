@@ -9,7 +9,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.MapPost("/calculate", async(HttpContext context) =>
+app.MapPost("/calculate", async (HttpContext context) =>
 {
     var request = context.Request;
     if (request.ContentType != null && request.ContentType.Contains("text/plain"))
@@ -36,7 +36,7 @@ List<Dictionary<string, bool>> CalculateGrid(string data)
     int width = int.Parse(lines[0].Split(' ')[0]);
     int height = int.Parse(lines[0].Split(' ')[1]);
 
-    List<int> lightsCoord = new List<int>();
+    List<int[]> lightsCoord = new List<int[]>();
     List<Dictionary<string, bool>> output = new List<Dictionary<string, bool>>();
 
     object[,][] grid = new object[height, width][];
@@ -49,38 +49,38 @@ List<Dictionary<string, bool>> CalculateGrid(string data)
             grid[i, j] = new object[] { new object(), line[j].ToString() };
             if (line[j].ToString().Contains("Q"))
             {
-                lightsCoord.Add(j);
+                lightsCoord.Add(new int[2] { i, j });
             }
         }
     }
-    for (int i = 0; i < (1 << lightsCoord.Count); i++)
+    for (int i = 0; i < Math.Pow(2, lightsCoord.Count); i++)
     {
         string binary = Convert.ToString(i, 2).PadLeft(lightsCoord.Count, '0');
 
         for (int j = 0; j < lightsCoord.Count; j++)
         {
             char lightState = binary[j];
-            grid[0, lightsCoord[j]][0] = lightState == '1';
+            grid[lightsCoord[j][0], lightsCoord[j][1]][0] = lightState == '1';
         }
         output.Add(calculateEndState(grid, width, height));
     }
     return output;
 }
 bool[] white(bool left, bool right)
- {
-     return new bool[2] { !(left && right), !(left && right) };
- }
- bool[] red(bool input)
- {
-     return new bool[2] { !input, !input };
- }
- bool[] blue(bool left, bool right)
- {
-     return new bool[2] { left, right };
- }
+{
+    return new bool[2] { !(left && right), !(left && right) };
+}
+bool[] red(bool input)
+{
+    return new bool[2] { !input, !input };
+}
+bool[] blue(bool left, bool right)
+{
+    return new bool[2] { left, right };
+}
 
 Dictionary<string, bool> calculateEndState(object[,][] grid, int width, int height)
-{  
+{
     Dictionary<string, bool> res = new Dictionary<string, bool>();
     for (int i = 0; i < height; i++)
     {
@@ -131,9 +131,9 @@ Dictionary<string, bool> calculateEndState(object[,][] grid, int width, int heig
                     }
                     break;
                 case string a when a.Contains("L"):
-                    if(grid[i-1,j][1].ToString().Contains("L"))
+                    if (grid[i - 1, j][1].ToString().Contains("L"))
                     {
-                        grid[i,j][0]=false;
+                        grid[i, j][0] = false;
                     }
                     else
                     {
@@ -145,4 +145,4 @@ Dictionary<string, bool> calculateEndState(object[,][] grid, int width, int heig
         }
     }
     return res;
-}   
+}
