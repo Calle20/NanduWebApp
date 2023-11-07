@@ -13,6 +13,7 @@
     export let id;
     export let letters;
     export let gridLedState;
+    export let ledGrid;
 
     let items = [];
     const background = "rgba(255, 255, 255, 0.2)";
@@ -21,6 +22,7 @@
     let previousId = writable(0);
     let flipDurationMs = 100;
     $: isLed = false;
+    $: isQ = false;
     let ledIdx = 0;
     // $: prevId = $previousId;
 
@@ -202,18 +204,45 @@
         const x = id % height;
         if (
             $letters[x][y - 1] &&
-            $letters[x][y - 1][0] !== "L" &&
+            ($letters[x][y - 1][0] !== "L" || $letters[x][y - 1][0] !== "Q") &&
             $letters[x][y - 1] !== "X"
         )
             return;
+
+        if ($hasRun && $letters[x][y][0] === "Q") {
+            led = $ledGrid.find((x) => x.id == id + 1024).isOn;
+            $ledGrid.find((x) => x.id == id + 1024).isOn = !led;
+            console.log("oajifkmpij");
+            return;
+        }
         $hasRun = false;
+        const element = document.getElementById(id);
+
         if ($letters[x][y][0] === "L") {
-            setTimeout(() => ($letters[x][y] = "X"), 100);
+            // setTimeout(() => ($letters[x][y] = "X"), 100);
+            $ledGrid.push(
+                Object.create({
+                    id: id + 1024,
+                    isOn: false,
+                    isActive: true,
+                })
+            );
+            $letters[x][y] = `Q${id + 1024}`;
+            element.innerHTML = "<h3 class='centerLetter'>Q</h3>";
+            isQ = true;
+
             isLed = false;
             return;
         }
+        if ($letters[x][y][0] === "Q") {
+            setTimeout(() => ($letters[x][y] = "X"), 100);
+            element.innerHTML = null;
+            isQ = false;
+            return;
+        }
+        element.innerHTML = "<h3 class='centerLetter'>L</h3>";
         ledIdx = $ledCounter;
-        $letters[x][y] = "L" + ledIdx;
+        $letters[x][y] = "L" + $ledCounter;
         isLed = true;
         $ledCounter++;
         console.log($letters);
@@ -229,20 +258,19 @@
             element.style.backgroundColor = $gridLedState[led]
                 ? "#198754"
                 : "red";
-            element.innerHTML = "<h3 class='centerLetter'>L</h3>";
         });
     }
 
     $: if (!$hasRun && document.getElementById(id)) {
-        const element = document.getElementById(id);
         const height = $letters.length;
         const y = Math.floor(id / height);
         const x = id % height;
 
         if ($letters[x][y][0] === "L") {
+            const element = document.getElementById(id);
             element.style.backgroundColor = null;
             console.log("NULLED!");
-            element.innerHTML = null;
+            // element.innerHTML = null;
             $letters[x][y][0] === "X";
         }
     }
@@ -250,7 +278,7 @@
 
 <div
     on:mousedown={onClick}
-    class="square {isLed ? 'led' : ''}"
+    class="square {isLed || isQ ? 'led' : ''}"
     {id}
     style={items.find((tile) => tile[SHADOW_ITEM_MARKER_PROPERTY_NAME])
         ? `background: ${background}`

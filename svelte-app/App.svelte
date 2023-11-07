@@ -291,6 +291,7 @@
 								id={row.id}
 								bind:letters
 								bind:gridLedState
+								bind:ledGrid
 							/>
 						{/each}
 					</div>
