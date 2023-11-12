@@ -14,7 +14,7 @@
     style="opacity: {$ledGrid[id].isActive ? 1 : 0}; background:{$ledGrid[id]
         .isOn
         ? '#198754'
-        : '#404040'}"
+        : 'red'}"
 >
     <!-- <h4>{id}</h4> -->
 </div>

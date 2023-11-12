@@ -280,7 +280,7 @@
             Q.isOn = !Q.isOn;
             Q.isOn
                 ? (element.style.backgroundColor = "#198754")
-                : (element.style.backgroundColor = null);
+                : (element.style.backgroundColor = "red");
 
             // console.log($gridQs);
             // const idx = $gridQs.findIndex((x) => (x.id = id + 1024));
@@ -350,6 +350,14 @@
                 : "red";
         });
     }
+    $: if ($hasRun && isQ) {
+        tick().then(() => {
+            let element = document.getElementById(id);
+            Q.isOn
+                ? (element.style.backgroundColor = "#198754")
+                : (element.style.backgroundColor = "red");
+        });
+    }
 
     $: if (!$hasRun && document.getElementById(id)) {
         const height = $letters.length;
@@ -361,7 +369,9 @@
             element.style.backgroundColor = null;
             console.log("NULLED!");
             // element.innerHTML = null;
-            $letters[x][y][0] === "X";
+        } else if ($letters[x][y][0] === "Q") {
+            const element = document.getElementById(id);
+            element.style.backgroundColor = null;
         }
     }
 </script>
@@ -393,7 +403,8 @@
         border-radius: calc(min(5vmin, 50px) / 6.25);
         background-color: #404040;
     }
-    .led, .out{
+    .led,
+    .out {
         /* From https://css.glass */
         background: #626262;
         border-radius: 16px;
@@ -402,27 +413,30 @@
         -webkit-backdrop-filter: blur(9.1px);
         border: 1px solid rgba(255, 255, 255, 1);
     }
-    .out::before, .led::before{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 205%;
-    }
-    .out::before{
-        content: "L";
-    }
-    
-    .led::before{
-        content: "Q";
-    }
-    :focus {
-        outline: none;
-    }
-    :global(.centerLetter) {
+    .out::before,
+    .led::before {
+        font-size: 2.125rem; /* h1 font-size */
         user-select: none;
         display: flex;
         align-items: center;
         justify-content: center;
         height: 100%;
     }
+    .out::before {
+        content: "L";
+    }
+
+    .led::before {
+        content: "Q";
+    }
+    :focus {
+        outline: none;
+    }
+    /* :global(.centerLetter) {
+        user-select: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    } */
 </style>
