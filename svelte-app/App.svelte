@@ -13,6 +13,7 @@
 	import Led from "./Led.svelte";
 	import LedOut from "./LedOut.svelte";
 	import InfoBox from "./InfoBox.svelte";
+	import ActiveBackground from "./ActiveBackground.svelte";
 	import { ledCounter, hasRun } from "./store";
 	import Delete_forever from "svelte-google-materialdesign-icons/Delete_forever.svelte";
 
@@ -141,7 +142,16 @@
 	}
 
 	function run(e) {
+		if (e.key && e.key === "Escape" && $hasRun) {
+			$hasRun = false;
+			return;
+		}
 		if (e.key && e.key !== "Enter") return;
+
+		if ($hasRun) {
+			$hasRun = false;
+			return;
+		}
 
 		let codeLength = $length;
 		let leds = $ledGrid.slice();
@@ -383,6 +393,9 @@
 			</button>
 		</div>
 	</div>
+	{#if $hasRun}
+		<ActiveBackground />
+	{/if}
 </div>
 
 <style>
