@@ -53,7 +53,7 @@
             const currentX = currentId % height;
             const element = document.getElementById(currentId);
 
-            if ($letters[currentX][currentY][0] === "L") {
+            /*if ($letters[currentX][currentY][0] === "L") {
                 element.innerHTML = null;
                 setTimeout(
                     () =>
@@ -67,7 +67,7 @@
                         (element.innerHTML = "<h3 class='centerLetter'>Q</h3>"),
                     100
                 );
-            }
+            }*/
 
             console.log("FIRST!");
             // const currentSquare = document.getElementById(id + height);
@@ -184,7 +184,7 @@
                         )
                             document.getElementById(id).style.opacity = 0;
                         else {
-                            const element = document.getElementById(id);
+                            /*const element = document.getElementById(id);
                             console.warn($letters[x][y][0]);
                             if ($letters[x][y][0] === "L") {
                                 element.innerHTML = null;
@@ -202,7 +202,7 @@
                                             "<h3 class='centerLetter'>Q</h3>"),
                                     100
                                 );
-                            }
+                            }*/
                         }
 
                         document.getElementById(
@@ -304,7 +304,7 @@
             Q.isActive = true;
             // $gridQs.push(Q);
             console.log($gridQs);
-            element.innerHTML = "<h3 class='centerLetter'>Q</h3>";
+            //element.innerHTML = "<h3 class='centerLetter'>Q</h3>";
             element.style.backgroundColor = null;
             isQ = true;
 
@@ -319,12 +319,12 @@
 
             setTimeout(() => console.warn($gridQs), 100);
             setTimeout(() => ($letters[x][y] = "X"), 100);
-            element.innerHTML = null;
+            //element.innerHTML = null;
             element.style.backgroundColor = null;
             isQ = false;
             return;
         }
-        element.innerHTML = "<h3 class='centerLetter'>L</h3>";
+        //element.innerHTML = "<h3 class='centerLetter'>L</h3>";
         ledIdx = $ledCounter;
         $letters[x][y] = "L" + $ledCounter;
         isLed = true;
@@ -368,7 +368,7 @@
 
 <div
     on:mousedown={onClick}
-    class="square {isLed || isQ ? 'led' : ''}"
+    class="square {isLed ? 'out' : isQ ? 'led' : ''}"
     {id}
     style={items.find((tile) => tile[SHADOW_ITEM_MARKER_PROPERTY_NAME])
         ? `background: ${background}`
@@ -393,7 +393,7 @@
         border-radius: calc(min(5vmin, 50px) / 6.25);
         background-color: #404040;
     }
-    .led {
+    .led, .out{
         /* From https://css.glass */
         background: #626262;
         border-radius: 16px;
@@ -401,6 +401,19 @@
         backdrop-filter: blur(9.1px);
         -webkit-backdrop-filter: blur(9.1px);
         border: 1px solid rgba(255, 255, 255, 1);
+    }
+    .out::before, .led::before{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 205%;
+    }
+    .out::before{
+        content: "L";
+    }
+    
+    .led::before{
+        content: "Q";
     }
     :focus {
         outline: none;
