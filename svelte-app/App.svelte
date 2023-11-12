@@ -196,7 +196,8 @@
 		leds.forEach((led, idx) => {
 			// if (!led.isActive) return;
 			const firstBlockLetter = code.slice(0, 1)[0][idx];
-			if (firstBlockLetter !== "X") $ledGrid[led.id].isActive = true;
+			if (firstBlockLetter !== "X" && firstBlockLetter[0] !== "Q")
+				$ledGrid[led.id].isActive = true;
 			else lamps[idx] = "X";
 
 			const lastBlockLetter = code.slice(-1)[0][idx];
