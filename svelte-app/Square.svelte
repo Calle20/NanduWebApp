@@ -13,7 +13,7 @@
     export let id;
     export let letters;
     export let gridLedState;
-    export let ledGrid;
+    export let gridQs;
 
     let items = [];
     const background = "rgba(255, 255, 255, 0.2)";
@@ -23,6 +23,12 @@
     let flipDurationMs = 100;
     $: isLed = false;
     $: isQ = false;
+    $: Q = {
+        id: id + 1024,
+        isOn: false,
+        isActive: false,
+    };
+    $gridQs.push(Q);
     let ledIdx = 0;
     // $: prevId = $previousId;
 
@@ -42,6 +48,26 @@
         if (trigger === TRIGGERS.DRAGGED_LEFT) {
             const square = document.getElementById(currentId + height);
             if (square) square.style.backgroundColor = null;
+
+            const currentY = Math.floor(currentId / height);
+            const currentX = currentId % height;
+            const element = document.getElementById(currentId);
+
+            if ($letters[currentX][currentY][0] === "L") {
+                element.innerHTML = null;
+                setTimeout(
+                    () =>
+                        (element.innerHTML = "<h3 class='centerLetter'>L</h3>"),
+                    100
+                );
+            } else if ($letters[currentX][currentY][0] === "Q") {
+                element.innerHTML = null;
+                setTimeout(
+                    () =>
+                        (element.innerHTML = "<h3 class='centerLetter'>Q</h3>"),
+                    100
+                );
+            }
 
             console.log("FIRST!");
             // const currentSquare = document.getElementById(id + height);
@@ -67,6 +93,7 @@
                     await tick();
                     square.style.opacity = 1;
                     square.style.backgroundColor = background;
+
                     console.log("SECOND!");
                 }
                 console.log(square);
@@ -80,7 +107,8 @@
         if (
             $letters[x][y - 1] &&
             $letters[x][y - 1] !== "X" &&
-            $letters[x][y - 1][0] !== "L"
+            $letters[x][y - 1][0] !== "L" &&
+            $letters[x][y - 1][0] !== "Q"
         ) {
             // $previousIdForOpacity = id;
             console.warn("HI");
@@ -114,7 +142,9 @@
 
             if (
                 (rightSquare && rightSquare.hasChildNodes()) || // if there's a square/LED on the right square
-                (rightSquare && $letters[x][y + 1][0] === "L") // or there is an LED beneath it
+                (rightSquare &&
+                    ($letters[x][y + 1][0] === "L" ||
+                        $letters[x][y + 1][0] === "Q")) // or there is an LED beneath it
             ) {
                 rightSquare = undefined;
             }
@@ -124,7 +154,8 @@
                 // !isR &&
                 $letters[x][y - 1] &&
                 $letters[x][y - 1] !== "X" &&
-                $letters[x][y - 1][0] !== "L" // or there is a square (but not an LED) to the left of it
+                $letters[x][y - 1][0] !== "L" &&
+                $letters[x][y - 1][0] !== "Q" // or there is a square (but not an LED) to the left of it
             )
                 rightSquare = false; // to ensure that it's not possible to drag one onto another
 
@@ -147,8 +178,33 @@
                         //         $letters[x][y - 1] !== "X") ||
                         //     $letters[x][y][0] === "L"
                         // ) {
-                        if ($letters[x][y][0] !== "L")
+                        if (
+                            $letters[x][y][0] !== "L" &&
+                            $letters[x][y][0] !== "Q"
+                        )
                             document.getElementById(id).style.opacity = 0;
+                        else {
+                            const element = document.getElementById(id);
+                            console.warn($letters[x][y][0]);
+                            if ($letters[x][y][0] === "L") {
+                                element.innerHTML = null;
+                                setTimeout(
+                                    () =>
+                                        (element.innerHTML =
+                                            "<h3 class='centerLetter'>L</h3>"),
+                                    100
+                                );
+                            } else if ($letters[x][y][0] === "Q") {
+                                element.innerHTML = null;
+                                setTimeout(
+                                    () =>
+                                        (element.innerHTML =
+                                            "<h3 class='centerLetter'>Q</h3>"),
+                                    100
+                                );
+                            }
+                        }
+
                         document.getElementById(
                             id + height
                         ).style.backgroundColor = null;
@@ -159,6 +215,13 @@
                         document.getElementById(
                             id + height
                         ).style.backgroundColor = null;
+                        if (
+                            $letters[x][y - 1] &&
+                            $letters[x][y - 1] !== "X" &&
+                            $letters[x][y - 1][0] !== "L" &&
+                            $letters[x][y - 1][0] !== "Q"
+                        )
+                            document.getElementById(id).style.opacity = 0;
                         console.log("none");
                     }
                 }, 5);
@@ -204,39 +267,60 @@
         const x = id % height;
         if (
             $letters[x][y - 1] &&
-            ($letters[x][y - 1][0] !== "L" || $letters[x][y - 1][0] !== "Q") &&
+            $letters[x][y - 1][0] !== "L" &&
+            $letters[x][y - 1][0] !== "Q" &&
             $letters[x][y - 1] !== "X"
         )
             return;
 
-        if ($hasRun && $letters[x][y][0] === "Q") {
-            led = $ledGrid.find((x) => x.id == id + 1024).isOn;
-            $ledGrid.find((x) => x.id == id + 1024).isOn = !led;
-            console.log("oajifkmpij");
+        const element = document.getElementById(id);
+        if ($hasRun && isQ) {
+            // led = $ledGrid.find((x) => x.id == id + 1024).isOn;
+            // $ledGrid.find((x) => x.id == id + 1024).isOn = !led;
+            Q.isOn = !Q.isOn;
+            Q.isOn
+                ? (element.style.backgroundColor = "#198754")
+                : (element.style.backgroundColor = null);
+
+            // console.log($gridQs);
+            // const idx = $gridQs.findIndex((x) => (x.id = id + 1024));
+            // console.log(idx);
+            // $gridQs[idx].isOn = Q.isOn;
+            // console.log(Q, $gridQs);
             return;
         }
         $hasRun = false;
-        const element = document.getElementById(id);
 
-        if ($letters[x][y][0] === "L") {
+        if (isLed) {
             // setTimeout(() => ($letters[x][y] = "X"), 100);
-            $ledGrid.push(
-                Object.create({
-                    id: id + 1024,
-                    isOn: false,
-                    isActive: true,
-                })
-            );
+            // $ledGrid.push(
+            //     Object.create({
+            //         id: id + 1024,
+            //         isOn: false,
+            //         isActive: true,
+            //     })
+            // );
             $letters[x][y] = `Q${id + 1024}`;
+            Q.isActive = true;
+            // $gridQs.push(Q);
+            console.log($gridQs);
             element.innerHTML = "<h3 class='centerLetter'>Q</h3>";
+            element.style.backgroundColor = null;
             isQ = true;
 
             isLed = false;
             return;
         }
-        if ($letters[x][y][0] === "Q") {
+        if (isQ) {
+            // const idx = $gridQs.findIndex((x) => (x.id = id + 1024));
+            // $gridQs = $gridQs.filter((x) => x.isActive === false);
+            // $gridQs.splice(idx, 1);
+            Q.isActive = false;
+
+            setTimeout(() => console.warn($gridQs), 100);
             setTimeout(() => ($letters[x][y] = "X"), 100);
             element.innerHTML = null;
+            element.style.backgroundColor = null;
             isQ = false;
             return;
         }
@@ -246,6 +330,12 @@
         isLed = true;
         $ledCounter++;
         console.log($letters);
+    }
+
+    // $: isQ ? (Q.isActive = true) : (Q.isActive = false);
+    $: if (Q) {
+        tick().then(() => ($gridQs[id] = Q));
+        // const idx = $gridQs.findIndex((x) => (x.id = id + 1024));
     }
 
     $: if ($hasRun && isLed) {

@@ -33,6 +33,15 @@
 	$: gridLedState = writable([]);
 	let height = 5;
 	let shouldIgnoreDndEvents = false;
+	$: gridQs = writable([]);
+	function sortObjectKeys(obj) {
+		return Object.keys(obj)
+			.sort()
+			.reduce((result, key) => {
+				result[key] = obj[key];
+				return result;
+			}, {});
+	} // phind.com
 
 	function handleDndConsider(e) {
 		// console.warn(`got consider ${JSON.stringify(e.detail, null, 2)}`);
@@ -216,18 +225,31 @@
 
 		$hasRun = true;
 	}
-	$: console.log($state);
 
-	$: breakme: if ($ledGrid && $hasRun) {
-		const idx = parseInt(
-			$ledGrid
-				.filter((value) => value.isActive)
-				.map((value) => ~~value.isOn)
-				.join(""),
-			2
-		); // deal with it
+	$: breakme: if ($ledGrid && $hasRun && $gridQs) {
+		let ledGridCp = $gridQs.concat($ledGrid).flat();
+		ledGridCp = ledGridCp.filter((value) => value.isActive);
+		console.log(ledGridCp);
+		console.warn("ASF");
 
-		const ledOut = $state[idx];
+		let target = {};
+		ledGridCp.forEach((x) => (target[`Q${x.id}`] = x.isOn));
+
+		// function matchesTarget(obj) {
+		// 	for (let key in target) {
+		// 		if (!(key in obj) || obj[key] !== target[key]) {
+		// 			return null;
+		// 		}
+		// 	}
+		// 	return obj;
+		// }
+		console.log(target);
+
+		const ledOut = $state.find((obj) =>
+			Object.keys(target).every((key) => obj[key] === target[key])
+		); // find object in array of objects, thanks phind
+		console.log(ledOut);
+
 		if (!ledOut) break breakme;
 
 		// const areGridLedsExistingIdx = Object.keys(ledOut).findIndex(
@@ -291,7 +313,7 @@
 								id={row.id}
 								bind:letters
 								bind:gridLedState
-								bind:ledGrid
+								bind:gridQs
 							/>
 						{/each}
 					</div>
