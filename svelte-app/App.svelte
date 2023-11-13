@@ -14,7 +14,7 @@
 	import LedOut from "./LedOut.svelte";
 	import InfoBox from "./InfoBox.svelte";
 	import ActiveBackground from "./ActiveBackground.svelte";
-	import { ledCounter, hasRun } from "./store";
+	import { hasRun } from "./store";
 	import Delete_forever from "svelte-google-materialdesign-icons/Delete_forever.svelte";
 	import Play_icon from "svelte-google-materialdesign-icons/Play_arrow.svelte";
 	import Build_icon from "svelte-google-materialdesign-icons/Build.svelte";
@@ -323,7 +323,6 @@
 								bind:letters
 								bind:gridLedState
 								bind:gridQs
-								bind:length
 							/>
 						{/each}
 					</div>

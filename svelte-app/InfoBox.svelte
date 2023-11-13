@@ -34,6 +34,9 @@
                 </p>
             </div>
             <div class="modal-footer">
+                <button class="btn btn-outline-danger" data-bs-dismiss="modal"
+                    >Schließen</button
+                >
                 <button
                     class="btn btn-primary"
                     data-bs-target="#exampleModalToggle2"
@@ -96,6 +99,9 @@
                     class="btn btn-primary"
                     data-bs-target="#exampleModalToggle"
                     data-bs-toggle="modal">Zurück</button
+                >
+                <button class="btn btn-outline-danger" data-bs-dismiss="modal"
+                    >Schließen</button
                 >
             </div>
         </div>
