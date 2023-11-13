@@ -14,10 +14,10 @@
 	import LedOut from "./LedOut.svelte";
 	import InfoBox from "./InfoBox.svelte";
 	import ActiveBackground from "./ActiveBackground.svelte";
-	import { ledCounter, hasRun} from "./store";
+	import { ledCounter, hasRun } from "./store";
 	import Delete_forever from "svelte-google-materialdesign-icons/Delete_forever.svelte";
-	import Play_icon from "svelte-google-materialdesign-icons/Play_arrow.svelte"
-	import Build_icon from "svelte-google-materialdesign-icons/Build.svelte"
+	import Play_icon from "svelte-google-materialdesign-icons/Play_arrow.svelte";
+	import Build_icon from "svelte-google-materialdesign-icons/Build.svelte";
 
 	let idx = 0;
 
@@ -37,14 +37,6 @@
 	let height = 5;
 	let shouldIgnoreDndEvents = false;
 	$: gridQs = writable([]);
-	function sortObjectKeys(obj) {
-		return Object.keys(obj)
-			.sort()
-			.reduce((result, key) => {
-				result[key] = obj[key];
-				return result;
-			}, {});
-	} // phind.com
 
 	function handleDndConsider(e) {
 		// console.warn(`got consider ${JSON.stringify(e.detail, null, 2)}`);
@@ -240,8 +232,11 @@
 	}
 
 	$: breakme: if ($ledGrid && $hasRun && $gridQs) {
-		let ledGridCp = $gridQs.concat($ledGrid).flat();
-		ledGridCp = ledGridCp.filter((value) => value.isActive);
+		let ledGridCp = $gridQs.concat($ledGrid);
+		console.log(ledGridCp);
+		ledGridCp = ledGridCp.filter((value) =>
+			value ? value.isActive : false
+		);
 		console.log(ledGridCp);
 		console.warn("ASF");
 
@@ -257,6 +252,7 @@
 		// 	return obj;
 		// }
 		console.log(target);
+		console.log($state);
 
 		const ledOut = $state.find((obj) =>
 			Object.keys(target).every((key) => obj[key] === target[key])
@@ -293,7 +289,7 @@
 
 <svelte:window on:keydown={run} />
 <div class="program-container">
-	<InfoBox/>
+	<InfoBox />
 	<div class="column" style="margin: 3em;">
 		<div class="grid">
 			{#if $hasRun}
@@ -327,6 +323,7 @@
 								bind:letters
 								bind:gridLedState
 								bind:gridQs
+								bind:length
 							/>
 						{/each}
 					</div>
@@ -381,12 +378,15 @@
 	</div>
 	<div class="main-container">
 		<div style="width: 10vmin; margin-bottom: 3vmin;">
-			<button class="btn {$hasRun ? 'btn-secondary' : 'btn-success'} btn-lg" on:click={run}> 
+			<button
+				class="btn {$hasRun ? 'btn-secondary' : 'btn-success'} btn-lg"
+				on:click={run}
+			>
 				<div inert>
 					{#if $hasRun}
-						<Build_icon/>
+						<Build_icon />
 					{:else}
-						<Play_icon/>
+						<Play_icon />
 					{/if}
 				</div>
 			</button>
@@ -405,8 +405,7 @@
 	</div>
 	<div style="min-height: 22vh;">
 		<div class="collapse collapse-horizontal" id="collapse">
-			<div class="card" style="width: 28vw; opacity:0;">
-			</div>
+			<div class="card" style="width: 28vw; opacity:0;" />
 		</div>
 	</div>
 	{#if $hasRun}
@@ -426,9 +425,9 @@
 		width: 100%;
 		height: 100%;
 		flex-direction: row;
-		justify-content:safe center;
+		justify-content: safe center;
 		gap: 1vw;
-		align-items:safe center;
+		align-items: safe center;
 		background-color: #272727;
 	}
 	@media (max-width: 800px) {

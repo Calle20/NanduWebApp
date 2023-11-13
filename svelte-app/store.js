@@ -2,7 +2,7 @@ import { writable } from 'svelte/store';
 // export const length = writable(6);
 // export const height = writable(5);
 export let hasRun = writable(false);
-export let ledCounter = writable(2048); // to ensure not to collide with the bottom leds
+export let counter = writable(2048); // to ensure not to collide with the bottom leds
 // console.log(length)
 // export const boardGrid = writable(
 //     Array.from({ length: length }, (_, i) =>

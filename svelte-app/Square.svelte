@@ -7,13 +7,14 @@
     // import { boardGrid } from "./store";
     import Tile from "./Tile.svelte";
     import { writable } from "svelte/store";
-    import { ledCounter, hasRun } from "./store";
+    import { counter, hasRun } from "./store";
     import { tick } from "svelte";
 
     export let id;
     export let letters;
     export let gridLedState;
     export let gridQs;
+    export let length;
 
     let items = [];
     const background = "rgba(255, 255, 255, 0.2)";
@@ -21,15 +22,18 @@
     let currentId = 0;
     let previousId = writable(0);
     let flipDurationMs = 100;
+
+    let ledIdx = 0;
+    let qIdx = $counter;
+    $counter++;
     $: isLed = false;
     $: isQ = false;
     $: Q = {
-        id: id + 1024,
+        id: qIdx,
         isOn: false,
         isActive: false,
     };
     $gridQs.push(Q);
-    let ledIdx = 0;
     // $: prevId = $previousId;
 
     async function handleDndConsider(e) {
@@ -300,7 +304,7 @@
             //         isActive: true,
             //     })
             // );
-            $letters[x][y] = `Q${id + 1024}`;
+            $letters[x][y] = `Q${qIdx}`;
             Q.isActive = true;
             // $gridQs.push(Q);
             console.log($gridQs);
@@ -325,10 +329,10 @@
             return;
         }
         //element.innerHTML = "<h3 class='centerLetter'>L</h3>";
-        ledIdx = $ledCounter;
-        $letters[x][y] = "L" + $ledCounter;
+        ledIdx = $counter;
+        $letters[x][y] = "L" + $counter;
         isLed = true;
-        $ledCounter++;
+        $counter++;
         console.log($letters);
     }
 
