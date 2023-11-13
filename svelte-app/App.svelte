@@ -16,6 +16,8 @@
 	import ActiveBackground from "./ActiveBackground.svelte";
 	import { ledCounter, hasRun } from "./store";
 	import Delete_forever from "svelte-google-materialdesign-icons/Delete_forever.svelte";
+	import Play_icon from "svelte-google-materialdesign-icons/Play_arrow.svelte"
+	import Build_icon from "svelte-google-materialdesign-icons/Build.svelte"
 
 	let idx = 0;
 
@@ -379,7 +381,15 @@
 	</div>
 	<div class="main-container">
 		<div style="width: 10vmin; margin-bottom: 3vmin;">
-			<button class="btn btn-primary btn-lg" on:click={run}> run</button>
+			<button class="btn {$hasRun ? 'btn-secondary' : 'btn-success'} btn-lg" on:click={run}> 
+				<div inert>
+					{#if $hasRun}
+						<Build_icon/>
+					{:else}
+						<Play_icon/>
+					{/if}
+				</div>
+			</button>
 		</div>
 
 		<div style="width: 10vmin;">
