@@ -14,7 +14,6 @@
     export let letters;
     export let gridLedState;
     export let gridQs;
-    export let length;
 
     let items = [];
     const background = "rgba(255, 255, 255, 0.2)";
