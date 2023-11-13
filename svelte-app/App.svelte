@@ -14,7 +14,7 @@
 	import LedOut from "./LedOut.svelte";
 	import InfoBox from "./InfoBox.svelte";
 	import ActiveBackground from "./ActiveBackground.svelte";
-	import { ledCounter, hasRun } from "./store";
+	import { ledCounter, hasRun} from "./store";
 	import Delete_forever from "svelte-google-materialdesign-icons/Delete_forever.svelte";
 	import Play_icon from "svelte-google-materialdesign-icons/Play_arrow.svelte"
 	import Build_icon from "svelte-google-materialdesign-icons/Build.svelte"
@@ -293,7 +293,7 @@
 
 <svelte:window on:keydown={run} />
 <div class="program-container">
-	<InfoBox />
+	<InfoBox/>
 	<div class="column" style="margin: 3em;">
 		<div class="grid">
 			{#if $hasRun}
@@ -403,6 +403,12 @@
 			</button>
 		</div>
 	</div>
+	<div style="min-height: 22vh;">
+		<div class="collapse collapse-horizontal" id="collapse">
+			<div class="card" style="width: 28vw; opacity:0;">
+			</div>
+		</div>
+	</div>
 	{#if $hasRun}
 		<ActiveBackground />
 	{/if}
@@ -420,9 +426,9 @@
 		width: 100%;
 		height: 100%;
 		flex-direction: row;
-		justify-content: center;
+		justify-content:safe center;
 		gap: 1vw;
-		align-items: center;
+		align-items:safe center;
 		background-color: #272727;
 	}
 	@media (max-width: 800px) {
