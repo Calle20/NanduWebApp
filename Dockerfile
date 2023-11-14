@@ -19,18 +19,19 @@ RUN npm run build
 
 
 # Use .NET Core SDK, name this stage 'backend'
-FROM mcr.microsoft.com/dotnet/sdk:7.0-alpine AS backend
+FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:7.0-alpine AS backend
+ARG TARGETARCH
 WORKDIR /build
 
 # Copy the csproj file then install dependencies
 COPY NanduWebApp.csproj .
-RUN dotnet restore NanduWebApp.csproj
+RUN dotnet restore -a ${TARGETARCH} NanduWebApp.csproj
 
 # Copy everything else
 COPY . .
 
 # Publish, and output the results to /publish
-RUN dotnet publish -c Release -o /publish
+RUN dotnet publish -a ${TARGETARCH} --no-restore -c Release -o /publish
 
 
 # ASP.NET Core Runtime
