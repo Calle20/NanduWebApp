@@ -17,7 +17,7 @@
     .led {
         border: 2px solid #272727;
         height: calc(2px + max(5vmin, 50px));
-        width: 5vmin;
+        width: calc(max(5vmin, 50px));
         border-radius: calc(max(5vmin, 50px) / 6.25);
         border-top-right-radius: 0;
         border-top-left-radius: 0;
