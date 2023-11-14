@@ -1,8 +1,6 @@
 <script>
     export let id;
     export let ledGridOut;
-
-    console.log($ledGridOut[id]);
 </script>
 
 <div
@@ -12,7 +10,6 @@
         ? '#198754'
         : 'red'}"
 >
-    <!-- don't ask for the "~~" -->
     <h4 class="centerLetter">L</h4>
 </div>
 

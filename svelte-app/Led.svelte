@@ -1,11 +1,9 @@
 <script>
     export let id;
-    // export let isOn;
     export let ledGrid;
     let toogle = () => {
         $ledGrid[id].isOn = !$ledGrid[id].isOn;
     };
-    console.log($ledGrid);
 </script>
 
 <div
@@ -15,9 +13,7 @@
         .isOn
         ? '#198754'
         : 'red'}"
->
-    <!-- <h4>{id}</h4> -->
-</div>
+/>
 
 <style>
     .led {

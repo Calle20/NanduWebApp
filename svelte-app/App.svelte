@@ -39,11 +39,9 @@
 	$: gridQs = writable([]);
 
 	function handleDndConsider(e) {
-		// console.warn(`got consider ${JSON.stringify(e.detail, null, 2)}`);
 		const { trigger, id, source } = e.detail.info;
 		if (source === SOURCES.KEYBOARD) return;
 		if (trigger === TRIGGERS.DRAG_STARTED) {
-			console.warn(`copying ${id}`);
 			const idx = items.findIndex((item) => item.id === id);
 			const newId = `${id}_copy_${Math.round(Math.random() * 100000)}`;
 			e.detail.items = e.detail.items.filter(
@@ -59,7 +57,6 @@
 		}
 	}
 	function handleDndFinalize(e) {
-		// console.warn(`got finalize ${JSON.stringify(e.detail, null, 2)}`);
 		const { id, source } = e.detail.info;
 		if (source === SOURCES.KEYBOARD) return;
 		if (!shouldIgnoreDndEvents) {
@@ -149,12 +146,6 @@
 
 		let codeLength = $length;
 		let leds = $ledGrid.slice();
-		// const leds = ledGrid
-		// 	.map((led) => {
-		// 		if (led.isOn) return `Q${led.id}`;
-		// 		else return "X";
-		// 	})
-		// 	.join(" ");
 		let code = $letters.map((col, idx) =>
 			col.map((element, jdx) => {
 				const prevElement = $letters[idx][jdx - 1];
@@ -171,7 +162,6 @@
 				}
 			})
 		);
-		console.log(code);
 
 		function trailCode() {
 			while (code[0].every((x) => x === "X")) {
@@ -179,9 +169,6 @@
 				leds.splice(0, 1);
 				codeLength--;
 			}
-			// if (code[0].every((x) => x === "X" || x === "r")) {
-			// 	leds.splice(0, 1, "X");
-			// }
 			code = code.reverse();
 			leds = leds.reverse();
 		}
@@ -194,11 +181,9 @@
 		trailCode();
 		code = code[0].map((_, i) => code.map((row) => row[i]));
 
-		console.log(leds, code);
 		let lamps = leds.map((led) => `Q${led.id}`);
 		let lampsOut = leds.map((led) => `L${led.id}`);
 		leds.forEach((led, idx) => {
-			// if (!led.isActive) return;
 			const firstBlockLetter = code.slice(0, 1)[0][idx];
 			if (
 				firstBlockLetter !== "X" &&
@@ -212,7 +197,6 @@
 			if (lastBlockLetter !== "X" && lastBlockLetter[0] !== "L")
 				$ledGridOut[led.id].isActive = true;
 			else lampsOut[idx] = "X";
-			console.log(firstBlockLetter);
 		});
 
 		lamps = lamps.join(" ");
@@ -226,7 +210,6 @@
 			code,
 			lampsOut,
 		].join("\n");
-		console.log(program);
 
 		fetch("/calculate", { method: "POST", body: program })
 			.then((response) => response.json())
@@ -237,40 +220,19 @@
 
 	$: breakme: if ($ledGrid && $hasRun && $gridQs) {
 		let ledGridCp = $gridQs.concat($ledGrid);
-		console.log(ledGridCp);
 		ledGridCp = ledGridCp.filter((value) =>
 			value ? value.isActive : false
 		);
-		console.log(ledGridCp);
-		console.warn("ASF");
 
 		let target = {};
 		ledGridCp.forEach((x) => (target[`Q${x.id}`] = x.isOn));
 
-		// function matchesTarget(obj) {
-		// 	for (let key in target) {
-		// 		if (!(key in obj) || obj[key] !== target[key]) {
-		// 			return null;
-		// 		}
-		// 	}
-		// 	return obj;
-		// }
-		console.log(target);
-		console.log($state);
-
 		const ledOut = $state.find((obj) =>
 			Object.keys(target).every((key) => obj[key] === target[key])
 		); // find object in array of objects, thanks phind
-		console.log(ledOut);
 
 		if (!ledOut) break breakme;
 
-		// const areGridLedsExistingIdx = Object.keys(ledOut).findIndex(
-		// 	(y) => parseInt(y.slice(1)) >= 1024
-		// );
-		// console.log(areGridLedsExistingIdx);
-		// if (areGridLedsExistingIdx)
-		// $gridLedState = $state.slice(areGridLedsExistingIdx);
 		$gridLedState = ledOut;
 
 		$ledGridOut
@@ -520,7 +482,6 @@
 		justify-content: center;
 		flex-direction: column;
 		flex-grow: 0;
-		/* width: calc((min(10vmin, 50px) + 4px) * 7); */
 	}
 	.rack > * {
 		margin: 2px;
