@@ -47,3 +47,6 @@ COPY --from=backend /publish .
 
 # Run our web application on startup (will listen on port 80 by default)
 ENTRYPOINT /app/NanduWebApp
+
+# Expose port 80
+EXPOSE 80

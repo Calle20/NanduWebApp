@@ -292,6 +292,23 @@
 </script>
 
 <svelte:window on:keydown={run} />
+
+<svelte:head>
+	{#if $hasRun}
+		<link rel="icon" href="favicon2.ico?v=6" sizes="any" />
+		<link rel="icon" href="favicon2.svg?v=6" type="image/svg+xml" />
+		<link rel="apple-touch-icon" href="apple-touch-icon2.png?v=6" />
+		<link rel="manifest" href="site2.webmanifest" />
+		<meta name="theme-color" content="#4a4a4a" />
+	{:else}
+		<link rel="icon" href="favicon.ico?v=5" sizes="any" />
+		<link rel="icon" href="favicon.svg?v=5" type="image/svg+xml" />
+		<link rel="apple-touch-icon" href="apple-touch-icon.png?v=5" />
+		<link rel="manifest" href="site.webmanifest" />
+		<meta name="theme-color" content="#4a4a4a" />
+	{/if}
+</svelte:head>
+
 <div class="program-container">
 	<InfoBox />
 	<div class="column" style="margin: 3em;">
