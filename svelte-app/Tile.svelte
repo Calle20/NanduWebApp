@@ -20,9 +20,9 @@
 
 <style>
     :global(.tile) {
-        height: calc(min(5vmin, 50px) - 2px);
-        width: calc(min(10vmin, 100px) - 4px);
-        border-radius: calc(min(5vmin, 50px) / 6.25);
+        height: calc(max(5vmin, 50px) - 2px);
+        width: calc(max(10vmin, 100px) - 4px);
+        border-radius: calc(max(5vmin, 50px) / 6.25);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -37,6 +37,7 @@
     }
 
     .letter-flex {
+        font-size: large;
         display: flex;
         width: 50%;
         align-items: center;

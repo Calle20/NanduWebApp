@@ -270,9 +270,9 @@
 <style>
     .square {
         border: 2px solid #272727;
-        height: calc(min(5vmin, 50px));
-        width: calc(min(5vmin, 50px));
-        border-radius: calc(min(5vmin, 50px) / 6.25);
+        height: calc(max(5vmin, 50px));
+        width: calc(max(5vmin, 50px));
+        border-radius: calc(max(5vmin, 50px) / 6.25);
         background-color: #404040;
     }
     .led,
