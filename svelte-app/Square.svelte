@@ -6,7 +6,7 @@
     } from "svelte-dnd-action";
     import Tile from "./Tile.svelte";
     import { writable } from "svelte/store";
-    import { counter, hasRun } from "./store";
+    import { counter, hasRun, hasLengthDecreased } from "./store";
     import { tick } from "svelte";
 
     export let id;
@@ -32,6 +32,19 @@
         isActive: false,
     };
     $gridQs.push(Q);
+
+    $: $hasLengthDecreased
+        ? removeOutOfGridSquares()
+        : removeOutOfGridSquares();
+
+    function removeOutOfGridSquares() {
+        const height = $letters.length;
+        const y = Math.floor(id / height);
+        const x = id % height;
+        if ($letters[x][y] === "X" && items.length === 1) {
+            items = [];
+        }
+    }
 
     async function handleDndConsider(e) {
         $hasRun = false;

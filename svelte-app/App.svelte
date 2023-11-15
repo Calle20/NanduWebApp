@@ -14,7 +14,7 @@
 	import LedOut from "./LedOut.svelte";
 	import InfoBox from "./InfoBox.svelte";
 	import ActiveBackground from "./ActiveBackground.svelte";
-	import { hasRun } from "./store";
+	import { hasRun, hasLengthDecreased } from "./store";
 	import Delete_forever from "svelte-google-materialdesign-icons/Delete_forever.svelte";
 	import Play_icon from "svelte-google-materialdesign-icons/Play_arrow.svelte";
 	import Build_icon from "svelte-google-materialdesign-icons/Build.svelte";
@@ -103,7 +103,18 @@
 	function decrementBoardGridLength(_e) {
 		if ($length === 1) return;
 		$length -= 1;
-		$letters.forEach((array) => array.pop());
+		$letters.forEach((array, idx) => {
+			if (
+				array[$length - 1].toLowerCase === "r" ||
+				array[$length - 1] === "W" ||
+				array[$length - 1] === "B"
+			) {
+				$letters[idx][$length - 1] = "X";
+				$hasLengthDecreased = !$hasLengthDecreased;
+				console.log("hi");
+			}
+			array.pop();
+		});
 	}
 	// of type { id: number, isOn: bool}
 	$: ledGrid = writable(
