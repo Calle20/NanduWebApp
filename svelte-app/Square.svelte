@@ -47,7 +47,6 @@
     }
 
     async function handleDndConsider(e) {
-        $hasRun = false;
         const id = parseInt(e.target.id);
         const { trigger } = e.detail.info;
         const itemList = e.detail.items;
@@ -90,6 +89,7 @@
             }, 1);
         }
         items = e.detail.items;
+        $hasRun = false;
     }
 
     function handleDndFinalize(e) {
