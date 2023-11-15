@@ -370,7 +370,7 @@
 		{/each}
 	</div>
 	<div class="main-container">
-		<div style="width: 10vmin; margin-bottom: 3vmin;">
+		<div>
 			<button
 				class="btn {$hasRun ? 'btn-secondary' : 'btn-success'} btn-lg"
 				on:click={run}
@@ -384,8 +384,7 @@
 				</div>
 			</button>
 		</div>
-
-		<div style="width: 10vmin;">
+		<div>
 			<button
 				class="btn btn-danger btn-lg"
 				on:click={() => location.reload()}
@@ -423,17 +422,43 @@
 		align-items: safe center;
 		background-color: #272727;
 	}
-	@media (max-width: 800px) {
-		.program-container {
-			flex-direction: column;
-		}
-	}
 	.main-container {
 		display: flex;
 		height: 100%;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
+	}
+	.main-container > * {
+		margin-top: 3vmin;
+	}
+	.rack {
+		display: flex;
+		justify-content: center;
+		flex-direction: column;
+		flex-grow: 0;
+	}
+	.rack > * {
+		margin: 2px;
+	}
+
+	@media (max-width: 800px) {
+		.program-container {
+			flex-direction: column;
+			align-items: safe center;
+		}
+		.rack {
+			width: calc(2 * max(10vmin, 100px));
+			justify-content: flex-start;
+			flex-direction: row;
+			flex-wrap: wrap;
+		}
+		.main-container {
+			flex-direction: row;
+		}
+		.main-container > * {
+			margin: 3vmin;
+		}
 	}
 
 	.grid {
@@ -487,14 +512,5 @@
 		padding: 0;
 		width: 2.6em;
 		height: 100%;
-	}
-	.rack {
-		display: flex;
-		justify-content: center;
-		flex-direction: column;
-		flex-grow: 0;
-	}
-	.rack > * {
-		margin: 2px;
 	}
 </style>
