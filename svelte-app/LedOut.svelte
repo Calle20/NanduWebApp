@@ -10,7 +10,7 @@
         ? '#198754'
         : 'red'}"
 >
-    <h4 class="centerLetter">L</h4>
+    <div class="centerLetter">L</div>
 </div>
 
 <style>
