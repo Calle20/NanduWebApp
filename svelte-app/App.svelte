@@ -111,7 +111,6 @@
 			) {
 				$letters[idx][$length - 1] = "X";
 				$hasLengthDecreased = !$hasLengthDecreased;
-				console.log("hi");
 			}
 			array.pop();
 		});
