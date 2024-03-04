@@ -12,3 +12,5 @@
 - run `npm install --force`
 - run `npm run dev`
 - navigate to [localhost:8080/](http://localhost:8080/)
+
+Or go to https://nanduwebapp.onrender.com/
